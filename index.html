@@ -1,0 +1,3389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de Convocatorias · Dirección</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1A4B8C;
+    --navy-dark: #103361;
+    --navy-light: #2E69B5;
+    --navy-tint: #E8EFF8;
+    --cream: #FAF8F3;
+    --paper: #FFFFFF;
+    --ink: #1A1F2C;
+    --ink-soft: #4A5468;
+    --ink-muted: #8893A4;
+    --rule: #DDE3EC;
+    --rule-soft: #ECEFF4;
+    --accent-warn: #B45309;
+    --accent-warn-bg: #FEF3C7;
+    --accent-urgent: #991B1B;
+    --accent-urgent-bg: #FEE2E2;
+    --accent-done: #166534;
+    --accent-done-bg: #DCFCE7;
+    --shadow-sm: 0 1px 2px rgba(16, 51, 97, 0.06);
+    --shadow-md: 0 4px 12px rgba(16, 51, 97, 0.08);
+    --shadow-lg: 0 12px 32px rgba(16, 51, 97, 0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    font-family: 'Source Sans 3', -apple-system, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    color: var(--navy-dark);
+  }
+
+  a { color: var(--navy); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ====== HEADER ====== */
+  header.top {
+    background: var(--navy);
+    color: white;
+    padding: 1.25rem 2rem;
+    border-bottom: 4px solid var(--navy-dark);
+  }
+  header.top .wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  header.top h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: white;
+    letter-spacing: -0.005em;
+  }
+  header.top .sub {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    margin-top: 0.15rem;
+  }
+  header.top .school {
+    text-align: right;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+  header.top .school strong { font-weight: 600; }
+  header.top .school .small { opacity: 0.75; font-size: 0.78rem; }
+
+  /* ====== NAV ====== */
+  nav.tabs {
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: var(--shadow-sm);
+  }
+  nav.tabs .wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  nav.tabs button {
+    background: none;
+    border: none;
+    padding: 1rem 1.5rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  nav.tabs button:hover { color: var(--navy); }
+  nav.tabs button.active {
+    color: var(--navy-dark);
+    border-bottom-color: var(--navy);
+  }
+
+  /* ====== MAIN ====== */
+  main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ====== DASHBOARD ====== */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+    color: white;
+    padding: 2.5rem 2.5rem 2rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    right: -100px;
+    top: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero .label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+  }
+  .hero h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    font-style: italic;
+  }
+  .hero .month-name { text-transform: capitalize; }
+  .hero .meta {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 300;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+  }
+  @media (max-width: 900px) {
+    .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--navy-dark);
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .section-title .count {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+
+  /* ====== CARDS ====== */
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 0.85rem;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--navy-light);
+  }
+  .card .head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.4rem;
+  }
+  .card .title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--navy-dark);
+    flex: 1;
+  }
+  .card .desc {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.6rem;
+  }
+  .card .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.82rem;
+  }
+  .tag {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: var(--navy-tint);
+    color: var(--navy-dark);
+  }
+  .tag.familias { background: #FEF6E4; color: #92400E; }
+  .tag.centro { background: var(--navy-tint); color: var(--navy-dark); }
+  .tag.profesorado { background: #E0E7FF; color: #3730A3; }
+  .tag.premio { background: #F0E7F8; color: #6B21A8; }
+  .tag.urgente { background: var(--accent-urgent-bg); color: var(--accent-urgent); }
+  .tag.proximo { background: var(--accent-warn-bg); color: var(--accent-warn); }
+  .tag.completo { background: var(--accent-done-bg); color: var(--accent-done); }
+
+  .verif-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .verif-badge.si {
+    background: #DCFCE7;
+    color: #14532D;
+    border: 1px solid #86EFAC;
+  }
+  .verif-badge.no {
+    background: #FEF3C7;
+    color: #92400E;
+    border: 1px solid #FCD34D;
+  }
+  .verif-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .warning-banner {
+    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+    border-left: 4px solid #B45309;
+    padding: 1.25rem 1.75rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    color: #78350F;
+  }
+  .warning-banner h4 {
+    font-family: 'Fraunces', serif;
+    color: #78350F;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .warning-banner h4::before {
+    content: '!';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: #B45309;
+    color: white;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.95rem;
+    font-family: 'Source Sans 3', sans-serif;
+  }
+  .warning-banner p {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    margin-bottom: 0.4rem;
+  }
+  .warning-banner strong { color: #78350F; }
+
+  .source {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+
+  .deadline-line {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    margin-top: 0.4rem;
+  }
+  .deadline-line strong { color: var(--navy-dark); font-weight: 600; }
+
+  /* ====== SIDEBAR ====== */
+  aside {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 1.5rem;
+    height: fit-content;
+  }
+  aside h3 {
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  aside ul { list-style: none; }
+  aside li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+    font-size: 0.88rem;
+  }
+  aside li:last-child { border-bottom: none; }
+  aside li .when {
+    color: var(--accent-warn);
+    font-weight: 600;
+    font-size: 0.78rem;
+    display: block;
+    margin-bottom: 0.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  aside li .when.urgent { color: var(--accent-urgent); }
+
+  /* ====== CALENDAR ====== */
+  .month-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+  .month-nav button {
+    background: var(--navy);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .month-nav button:hover { background: var(--navy-dark); }
+  .month-nav h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    text-transform: capitalize;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .month-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 800px) { .month-grid { grid-template-columns: 1fr; } }
+
+  .month-block {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 1.5rem;
+  }
+  .month-block h4 {
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--navy);
+    color: var(--navy-dark);
+  }
+  .month-block ul { list-style: none; }
+  .month-block li {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+    font-size: 0.9rem;
+  }
+  .month-block li:last-child { border-bottom: none; }
+  .month-block .item-title {
+    font-weight: 600;
+    color: var(--navy-dark);
+    margin-bottom: 0.2rem;
+  }
+  .month-block .item-meta {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+  }
+  .empty-state {
+    color: var(--ink-muted);
+    font-style: italic;
+    font-size: 0.9rem;
+    padding: 1rem 0;
+  }
+
+  /* ====== CATALOGO ====== */
+  .filters {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: center;
+  }
+  .filters label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-right: 0.4rem;
+  }
+  .filter-btn {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .filter-btn.active {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+  }
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    background: var(--cream);
+  }
+  .search-box:focus {
+    outline: none;
+    border-color: var(--navy);
+    background: white;
+  }
+
+  /* ====== DETAIL MODAL ====== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(16, 31, 44, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 2rem;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--paper);
+    border-radius: 4px;
+    max-width: 720px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+  }
+  .modal-head {
+    background: var(--navy);
+    color: white;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .modal-head h3 {
+    font-family: 'Fraunces', serif;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .close-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .close-btn:hover { background: rgba(255,255,255,0.15); }
+  .modal-body { padding: 1.75rem 2rem; }
+  .modal-body h4 {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    margin: 1.4rem 0 0.4rem;
+    font-weight: 600;
+    font-family: 'Source Sans 3', sans-serif;
+  }
+  .modal-body h4:first-child { margin-top: 0; }
+  .modal-body p { color: var(--ink-soft); font-size: 0.95rem; }
+  .modal-body .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 0.5rem 0;
+  }
+  @media (max-width: 600px) { .modal-body .info-grid { grid-template-columns: 1fr; } }
+  .info-item {
+    background: var(--cream);
+    padding: 0.7rem 0.9rem;
+    border-left: 3px solid var(--navy);
+  }
+  .info-item .info-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+  .info-item .info-value { font-size: 0.92rem; color: var(--ink); }
+
+  .modal-body textarea {
+    width: 100%;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 0.7rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    min-height: 80px;
+    resize: vertical;
+    background: var(--cream);
+  }
+  .modal-body textarea:focus { outline: none; border-color: var(--navy); background: white; }
+
+  .status-select {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 0.5rem 0;
+  }
+  .status-btn {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    padding: 0.4rem 0.9rem;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .status-btn.active {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+  }
+
+  .btn-primary {
+    background: var(--navy);
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--navy-dark); }
+
+  .btn-secondary {
+    background: var(--paper);
+    color: var(--navy);
+    border: 1px solid var(--navy);
+    padding: 0.7rem 1.5rem;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { background: var(--navy-tint); }
+
+  /* ====== TASKS VIEW ====== */
+  .task-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 700px) { .task-summary { grid-template-columns: repeat(2, 1fr); } }
+  .stat-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+  .stat-card .num {
+    font-family: 'Fraunces', serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: var(--navy);
+    display: block;
+    line-height: 1;
+  }
+  .stat-card .label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    margin-top: 0.4rem;
+    font-weight: 600;
+  }
+
+  /* ====== RECURSOS ====== */
+  .resource-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .resource-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 1.5rem;
+    border-top: 3px solid var(--navy);
+  }
+  .resource-card h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    color: var(--navy-dark);
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+  }
+  .resource-card p {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.8rem;
+  }
+  .resource-card .steps {
+    list-style: decimal;
+    margin-left: 1.2rem;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+  .resource-card .steps li { margin-bottom: 0.4rem; }
+  .resource-card .link-out {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  /* ====== ACTIONS BAR ====== */
+  .action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .action-bar h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    font-style: italic;
+  }
+  .action-bar .actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+  /* ====== FOOTER ====== */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--ink-muted);
+    font-size: 0.82rem;
+    border-top: 1px solid var(--rule);
+    margin-top: 3rem;
+  }
+
+  /* ====== PRINT ====== */
+  @media print {
+    header.top, nav.tabs, .action-bar .actions, .filter-btn, .search-box, aside { display: none !important; }
+    main { padding: 1rem; max-width: 100%; }
+    .view { display: block !important; }
+    .card, .month-block, .resource-card { break-inside: avoid; box-shadow: none; border: 1px solid #888; }
+    .hero { background: white; color: var(--navy-dark); border: 2px solid var(--navy); }
+    .hero h2, .hero .label, .hero .meta { color: var(--navy-dark); }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div>
+      <h1>Panel de Convocatorias y Ayudas</h1>
+      <div class="sub">Dirección · Gestión integral del año académico</div>
+    </div>
+    <div class="school">
+      <strong>Colegio El Ave María</strong><br>
+      <span class="small">Madrid · Concertado · Infantil, Primaria y ESO</span><br>
+      <span class="small" style="opacity:0.95; margin-top:0.2rem; display:inline-block;">profemaria@colegioavemariamad.com</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="wrap">
+    <button class="active" data-view="dashboard">Inicio</button>
+    <button data-view="calendario">Calendario anual</button>
+    <button data-view="catalogo">Catálogo de convocatorias</button>
+    <button data-view="tareas">Mi seguimiento</button>
+    <button data-view="recursos">Suscripciones y recursos</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ DASHBOARD ============ -->
+<section class="view active" id="view-dashboard">
+  <div class="warning-banner">
+    <h4>Las fechas del catálogo son indicativas — verifica siempre en la fuente oficial</h4>
+    <p>De las <strong>82 convocatorias</strong> del catálogo, solo <strong>7 tienen la fecha verificada con la convocatoria oficial publicada</strong> para el curso 2025-2026. El resto son aproximaciones basadas en el patrón histórico de cada programa.</p>
+    <p>Las fichas en verde están <strong>verificadas</strong>. Las amarillas son <strong>aproximadas</strong>: úsalas como aviso de "este mes tengo que mirar la convocatoria oficial", nunca como fecha definitiva. Antes de preparar una solicitud, abre la ficha y pulsa el enlace a la fuente oficial para confirmar el plazo real del año en curso.</p>
+  </div>
+
+  <div class="hero">
+    <div class="label">Panel del mes</div>
+    <h2><span class="month-name" id="current-month"></span></h2>
+    <div class="meta" id="current-summary"></div>
+  </div>
+
+  <!-- EXPLAINER PANEL -->
+  <details style="background:var(--paper); border:1px solid var(--rule); border-radius:4px; padding:1rem 1.5rem; margin-bottom:2rem; box-shadow:var(--shadow-sm);">
+    <summary style="cursor:pointer; font-family:'Fraunces', serif; font-size:1.05rem; color:var(--navy-dark); font-weight:500; outline:none;">
+      ¿Cómo se actualiza la información? &nbsp;<span style="font-family:'Source Sans 3', sans-serif; font-size:0.82rem; color:var(--ink-muted); font-weight:400;">(pulsa para leer)</span>
+    </summary>
+    <div style="margin-top:1rem; font-size:0.92rem; color:var(--ink-soft); line-height:1.65;">
+      <p style="margin-bottom:0.8rem;"><strong style="color:var(--navy-dark);">El BOE y el BOCM publican cada día.</strong> La aplicación tiene tres capas que cubren esa actualización constante:</p>
+
+      <div style="background:var(--cream); padding:1rem 1.2rem; border-left:3px solid var(--navy); margin-bottom:0.8rem;">
+        <strong style="color:var(--navy-dark);">1 · El catálogo de 81 convocatorias</strong> es una base estable. Son los programas <strong>recurrentes</strong> que se convocan año tras año (Erasmus+, ACCEDE, transporte, Zinkers, Efigy, EduCaixa...). Las fechas varían unos días cada curso pero los programas son los mismos. <strong>Se revisa una vez al año, en septiembre.</strong>
+      </div>
+
+      <div style="background:var(--cream); padding:1rem 1.2rem; border-left:3px solid var(--navy); margin-bottom:0.8rem;">
+        <strong style="color:var(--navy-dark);">2 · El feed en directo del BOE y BOCM (panel inferior)</strong> sí se actualiza <strong>cada vez que abres la aplicación</strong>. Filtra las publicaciones del día con palabras educativas: becas, alumnado, profesorado, concertado, etc. Aquí aparecen las novedades, modificaciones y convocatorias ad-hoc.
+      </div>
+
+      <div style="background:var(--cream); padding:1rem 1.2rem; border-left:3px solid var(--navy); margin-bottom:0.8rem;">
+        <strong style="color:var(--navy-dark);">3 · Los correos diarios a profemaria@colegioavemariamad.com</strong> son lo que de verdad hace que las cosas <strong>te lleguen sin abrir nada</strong>. BOCM, sede de la CAM, BOE y Escuelas Católicas envían un boletín diario o semanal al correo del centro filtrado por las palabras que tú configures. Cómo activarlos: pestaña <em>"Suscripciones y recursos"</em>.
+      </div>
+
+      <p style="font-size:0.88rem; color:var(--ink-muted); font-style:italic; margin-top:0.6rem;">Resumen: el catálogo es el mapa estable; el feed en directo y los correos son las novedades en tiempo real. Las tres capas trabajan juntas.</p>
+    </div>
+  </details>
+
+  <div class="grid-3">
+    <div>
+      <h3 class="section-title">
+        Acciones de este mes
+        <span class="count" id="month-count"></span>
+      </h3>
+      <div id="month-items"></div>
+
+      <h3 class="section-title" style="margin-top:2.5rem;">
+        Próximos 60 días
+        <span class="count" id="upcoming-count"></span>
+      </h3>
+      <div id="upcoming-items"></div>
+    </div>
+
+    <aside>
+      <h3>Calendario rápido</h3>
+      <ul id="quick-calendar"></ul>
+
+      <h3 style="margin-top:2rem;">Resumen del año</h3>
+      <div id="year-stats" style="font-size:0.88rem;color:var(--ink-soft);"></div>
+    </aside>
+  </div>
+
+  <!-- LIVE FEED FROM BOE/BOCM -->
+  <div style="margin-top:3rem;">
+    <h3 class="section-title">
+      Últimas publicaciones oficiales (BOE y BOCM)
+      <span class="count" id="feed-status">Cargando...</span>
+    </h3>
+    <p style="font-size:0.88rem; color:var(--ink-muted); margin-bottom:1rem;">
+      Filtrado automático de las últimas ayudas y subvenciones publicadas en BOE y BOCM relacionadas con educación.
+      Esta lista se consulta en vivo cada vez que abres la aplicación.
+    </p>
+    <div id="live-feed"></div>
+    <div id="feed-fallback" style="display:none; background:var(--accent-warn-bg); padding:1rem 1.25rem; border-left:3px solid var(--accent-warn); margin-top:1rem; font-size:0.9rem;">
+      <strong>No se ha podido recuperar el feed en directo.</strong> Esto ocurre ocasionalmente con los servidores intermediarios.
+      Puedes consultarlo manualmente:
+      <ul style="margin-top:0.5rem; margin-left:1.5rem;">
+        <li><a href="https://www.boe.es/buscar/ayudas.php" target="_blank">Últimas ayudas del BOE</a></li>
+        <li><a href="https://www.bocm.es" target="_blank">Boletín Oficial de la Comunidad de Madrid</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CALENDARIO ============ -->
+<section class="view" id="view-calendario">
+  <div class="action-bar">
+    <h2>Calendario académico</h2>
+    <div class="actions">
+      <button class="btn-secondary" onclick="downloadICS()">Descargar para mi calendario (.ics)</button>
+      <button class="btn-secondary" onclick="window.print()">Imprimir</button>
+    </div>
+  </div>
+
+  <div class="month-grid" id="calendar-grid"></div>
+</section>
+
+<!-- ============ CATALOGO ============ -->
+<section class="view" id="view-catalogo">
+  <div class="action-bar">
+    <h2>Catálogo completo</h2>
+    <div class="actions">
+      <button class="btn-secondary" onclick="window.print()">Imprimir lista</button>
+    </div>
+  </div>
+
+  <div class="filters">
+    <label>Tipo:</label>
+    <button class="filter-btn active" data-filter="tipo" data-value="all">Todos</button>
+    <button class="filter-btn" data-filter="tipo" data-value="familias">Familias</button>
+    <button class="filter-btn" data-filter="tipo" data-value="centro">Centro / proyectos</button>
+    <button class="filter-btn" data-filter="tipo" data-value="profesorado">Profesorado</button>
+    <button class="filter-btn" data-filter="tipo" data-value="premio">Premios</button>
+  </div>
+
+  <div class="filters">
+    <label>Etapa:</label>
+    <button class="filter-btn active" data-filter="etapa" data-value="all">Todas</button>
+    <button class="filter-btn" data-filter="etapa" data-value="infantil">Infantil</button>
+    <button class="filter-btn" data-filter="etapa" data-value="primaria">Primaria</button>
+    <button class="filter-btn" data-filter="etapa" data-value="eso">ESO</button>
+    <input type="text" class="search-box" id="search" placeholder="Buscar convocatoria...">
+  </div>
+
+  <div class="filters">
+    <label>Estado:</label>
+    <button class="filter-btn active" data-filter="verif" data-value="all">Todas</button>
+    <button class="filter-btn" data-filter="verif" data-value="si">Solo verificadas</button>
+    <button class="filter-btn" data-filter="verif" data-value="no">Solo aproximadas</button>
+  </div>
+
+  <div id="catalogo-items"></div>
+</section>
+
+<!-- ============ TAREAS ============ -->
+<section class="view" id="view-tareas">
+  <div class="action-bar">
+    <h2>Mi seguimiento</h2>
+    <div class="actions">
+      <button class="btn-secondary" onclick="exportProgress()">Exportar progreso (JSON)</button>
+      <button class="btn-secondary" onclick="window.print()">Imprimir informe</button>
+    </div>
+  </div>
+
+  <div class="task-summary" id="task-summary"></div>
+
+  <h3 class="section-title">Convocatorias en curso o solicitadas</h3>
+  <div id="active-tasks"></div>
+
+  <h3 class="section-title" style="margin-top:2rem;">Finalizadas este curso</h3>
+  <div id="done-tasks"></div>
+</section>
+
+<!-- ============ RECURSOS ============ -->
+<section class="view" id="view-recursos">
+  <div class="action-bar">
+    <h2>Suscripciones y recursos</h2>
+  </div>
+
+  <p style="margin-bottom:1rem; color:var(--ink-soft); max-width:780px;">
+    Estas son las fuentes oficiales y las plataformas donde activar avisos por correo electrónico. Configurar todo
+    una sola vez al inicio del curso es lo que hace que las convocatorias te lleguen automáticamente sin tener que
+    revisar boletines manualmente.
+  </p>
+
+  <div style="background:var(--navy); color:white; padding:1.25rem 1.5rem; border-radius:4px; margin-bottom:2rem; max-width:780px; box-shadow:var(--shadow-md);">
+    <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; opacity:0.85; margin-bottom:0.3rem; font-weight:600;">Importante</div>
+    <div style="font-size:1rem; line-height:1.4;">
+      Da de alta todas las suscripciones con el correo institucional del centro:
+      <strong style="display:inline-block; margin-top:0.4rem; padding:0.3rem 0.7rem; background:rgba(255,255,255,0.15); border-radius:3px; font-family:'Source Sans 3', monospace; letter-spacing:0.02em;">profemaria@colegioavemariamad.com</strong><br>
+      <span style="font-size:0.88rem; opacity:0.9; margin-top:0.5rem; display:inline-block;">Así todos los avisos llegan al mismo buzón, no dependen de una persona concreta y quedan archivados de forma centralizada.</span>
+    </div>
+  </div>
+
+  <div class="resource-grid" id="resources"></div>
+</section>
+
+</main>
+
+<!-- ============ MODAL DETALLE ============ -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modal-title"></h3>
+      <button class="close-btn" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<footer>
+  Panel de gestión interna · Datos guardados localmente en este navegador · Última actualización del catálogo: mayo 2026
+</footer>
+
+<script>
+// ============ DATA: CONVOCATORIAS ============
+const CURRENT_YEAR = 2026;
+
+const CONVOCATORIAS = [
+  // === COMUNIDAD DE MADRID — FAMILIAS (gestiona el centro) ===
+  {
+    id: 'cm-transporte',
+
+    verificado: true,
+    nombre: 'Ayudas individualizadas de transporte escolar',
+    organismo: 'Consejería de Educación, Ciencia y Universidades de la Comunidad de Madrid',
+    categoria: 'comunidad-madrid',
+    tipo: 'familias',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Ayuda económica para gastos de transporte escolar del alumnado que no dispone de transporte gratuito y cumple los requisitos de distancia y renta.',
+    beneficiarios: 'Familias del alumnado matriculado en Infantil (2º ciclo), Primaria y ESO',
+    cuantia: 'Variable según renta y distancia',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Noviembre',
+    mes: 10,
+    fechaInicio: '2026-10-15',
+    fechaFin: '2026-11-30',
+    enlace: 'https://sede.comunidad.madrid/ayudas-becas-subvenciones/ayudas-transporte-escolar-2025-2026',
+    tareas: 'Difundir entre familias, recoger documentación, tramitar telemáticamente'
+  },
+  {
+    id: 'cm-comedor',
+
+    verificado: false,
+    nombre: 'Becas y ayudas de comedor escolar',
+    organismo: 'Consejería de Educación · Comunidad de Madrid',
+    categoria: 'comunidad-madrid',
+    tipo: 'familias',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Ayudas al precio del menú escolar para familias con rentas bajas, situaciones de tutela, familia numerosa de categoría especial o víctimas de violencia o terrorismo.',
+    beneficiarios: 'Familias del alumnado del centro',
+    cuantia: 'Hasta el 100% del precio del menú (4,88€/día estándar)',
+    plazoInicio: 'Mayo',
+    plazoFin: 'Junio',
+    mes: 5,
+    fechaInicio: '2026-05-15',
+    fechaFin: '2026-06-30',
+    enlace: 'https://sede.comunidad.madrid/ayudas-becas-subvenciones',
+    tareas: 'Difundir entre familias y certificar datos'
+  },
+  {
+    id: 'cm-accede',
+
+    verificado: false,
+    nombre: 'Programa ACCEDE — préstamo de libros de texto',
+    organismo: 'Consejería de Educación · Comunidad de Madrid',
+    categoria: 'comunidad-madrid',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Sistema de préstamo gratuito de libros de texto y material curricular. El centro gestiona el banco de libros y recibe financiación por alumno adherido.',
+    beneficiarios: 'Centro educativo · Beneficia a todo el alumnado adherido',
+    cuantia: 'Dotación económica por alumno adherido',
+    plazoInicio: 'Junio',
+    plazoFin: 'Julio',
+    mes: 6,
+    fechaInicio: '2026-06-01',
+    fechaFin: '2026-07-15',
+    enlace: 'https://www.educa2.madrid.org/web/programa-accede',
+    tareas: 'Gestionar adhesión, banco de libros, justificación a final de curso'
+  },
+  {
+    id: 'cm-neae',
+
+    verificado: false,
+    nombre: 'Ayudas para alumnado con necesidades específicas de apoyo educativo (NEAE)',
+    organismo: 'Ministerio de Educación, FP y Deportes',
+    categoria: 'estatal',
+    tipo: 'familias',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Ayudas para gastos de reeducación pedagógica/del lenguaje, transporte, comedor, residencia y libros para alumnado con necesidad específica de apoyo educativo (TEA, TDAH, altas capacidades, dificultades graves de aprendizaje, etc.).',
+    beneficiarios: 'Familias del alumnado con NEAE acreditadas',
+    cuantia: 'Hasta varios miles de euros por alumno según concepto',
+    plazoInicio: 'Mayo',
+    plazoFin: 'Septiembre',
+    mes: 5,
+    fechaInicio: '2026-05-01',
+    fechaFin: '2026-09-15',
+    enlace: 'https://www.becaseducacion.gob.es',
+    tareas: 'Difundir, certificar NEAE, ayudar a familias con documentación'
+  },
+  {
+    id: 'cm-infantil',
+
+    verificado: false,
+    nombre: 'Becas de escolarización primer ciclo Infantil',
+    organismo: 'Comunidad de Madrid',
+    categoria: 'comunidad-madrid',
+    tipo: 'familias',
+    etapas: ['infantil'],
+    descripcion: 'Ayudas para la escolarización de 0 a 3 años en centros autorizados. Si el centro tiene primer ciclo de Infantil, las familias pueden solicitarlas.',
+    beneficiarios: 'Familias con hijos de 0-3 años',
+    cuantia: 'Variable según renta familiar',
+    plazoInicio: 'Mayo',
+    plazoFin: 'Junio',
+    mes: 5,
+    fechaInicio: '2026-05-10',
+    fechaFin: '2026-06-15',
+    enlace: 'https://sede.comunidad.madrid/ayudas-becas-subvenciones',
+    tareas: 'Aplicable solo si el centro imparte primer ciclo de Infantil'
+  },
+
+  // === COMUNIDAD DE MADRID — CENTRO / PROYECTOS ===
+  {
+    id: 'cm-proa',
+
+    verificado: false,
+    nombre: 'PROA+ — Programa de Cooperación Territorial para el éxito escolar',
+    organismo: 'Consejería de Educación · Comunidad de Madrid',
+    categoria: 'comunidad-madrid',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Programa financiado con fondos europeos y estatales para reducir las tasas de abandono escolar y mejorar resultados del alumnado en situación de vulnerabilidad. Los centros seleccionados reciben dotación económica para un plan de actividades palanca.',
+    beneficiarios: 'Centro · Asignación económica directa',
+    cuantia: 'Variable según plan presentado (suele ser entre 10.000€ y 30.000€)',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-15',
+    fechaFin: '2026-10-31',
+    enlace: 'http://sede.comunidad.madrid/node/221370',
+    tareas: 'Presentar declaración de alumnado vulnerable y plan de mejora'
+  },
+  {
+    id: 'cm-pie',
+
+    verificado: false,
+    nombre: 'Programa de Innovación Educativa (PIE)',
+    organismo: 'Consejería de Educación · Comunidad de Madrid',
+    categoria: 'comunidad-madrid',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Convocatoria para desarrollar proyectos de innovación. Los centros seleccionados reciben formación, dispositivos tecnológicos, mobiliario y dotación económica para adaptación de espacios.',
+    beneficiarios: 'Centro · Dotación múltiple (formación, equipamiento, dinero)',
+    cuantia: 'Importante — equipamiento + dotación económica',
+    plazoInicio: 'Junio',
+    plazoFin: 'Septiembre',
+    mes: 6,
+    fechaInicio: '2026-06-21',
+    fechaFin: '2026-09-30',
+    enlace: 'https://dgbilinguismoycalidad.educa.madrid.org/pie/',
+    tareas: 'Hacer test SELFIE de digitalización · contar con apoyo del 50% del claustro · redactar proyecto'
+  },
+  {
+    id: 'cm-seminarios',
+
+    verificado: false,
+    nombre: 'Seminarios y Proyectos de Formación en Centros (CTIF)',
+    organismo: 'CTIF — Centro Territorial de Innovación y Formación',
+    categoria: 'comunidad-madrid',
+    tipo: 'profesorado',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Convocatoria para que el profesorado del centro forme grupos de trabajo o seminarios con certificación oficial de horas. Aplicable a centros sostenidos con fondos públicos.',
+    beneficiarios: 'Profesorado del centro · Certificación de horas de formación',
+    cuantia: 'Sin dotación directa, pero horas certificadas oficialmente',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Noviembre',
+    mes: 10,
+    fechaInicio: '2026-10-01',
+    fechaFin: '2026-11-15',
+    enlace: 'https://innovacionyformacion.educa.madrid.org/',
+    tareas: 'Designar coordinador, presentar proyecto formativo'
+  },
+  {
+    id: 'cm-programas-inst',
+
+    verificado: false,
+    nombre: 'Programas educativos institucionales (huerto, hábitos, etc.)',
+    organismo: 'Consejería de Educación · Comunidad de Madrid',
+    categoria: 'comunidad-madrid',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Conjunto de programas como Huertos Escolares Sostenibles, Hábitos de Vida Saludable, Programa para la Mejora del Éxito Educativo, Programa de Refuerzo, etc.',
+    beneficiarios: 'Centro · Materiales, formación o asesoramiento',
+    cuantia: 'Materiales y asesoramiento (no siempre económica)',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-10-31',
+    enlace: 'https://sede.comunidad.madrid/educacion-formacion/innovacion-programas-educativos',
+    tareas: 'Revisar el catálogo anual y solicitar los programas afines al PEC'
+  },
+
+  // === ESTATALES ===
+  {
+    id: 'meed-becas-general',
+
+    verificado: false,
+    nombre: 'Becas y ayudas al estudio del Ministerio (MEFPD)',
+    organismo: 'Ministerio de Educación, Formación Profesional y Deportes',
+    categoria: 'estatal',
+    tipo: 'familias',
+    etapas: ['eso'],
+    descripcion: 'Becas generales del Ministerio para postobligatoria. Aunque ESO no entra, conviene informar a las familias de 4º ESO para que las soliciten para el curso siguiente.',
+    beneficiarios: 'Alumnado de 4º ESO que vaya a estudios postobligatorios',
+    cuantia: 'Variable según renta y modalidad',
+    plazoInicio: 'Marzo',
+    plazoFin: 'Mayo',
+    mes: 3,
+    fechaInicio: '2026-03-15',
+    fechaFin: '2026-05-15',
+    enlace: 'https://www.becaseducacion.gob.es',
+    tareas: 'Informar a familias de 4º ESO'
+  },
+  {
+    id: 'meed-convivencia',
+
+    verificado: false,
+    nombre: 'Premios a Proyectos de Convivencia y Bienestar escolar',
+    organismo: 'Ministerio de Educación, FP y Deportes',
+    categoria: 'estatal',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Premio nacional a centros que desarrollan proyectos relevantes de mejora de la convivencia y el bienestar emocional del alumnado.',
+    beneficiarios: 'Centro · Reconocimiento + dotación económica',
+    cuantia: 'Hasta varios miles de euros + reconocimiento oficial',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Noviembre',
+    mes: 10,
+    fechaInicio: '2026-10-15',
+    fechaFin: '2026-11-30',
+    enlace: 'https://www.educacionfpydeportes.gob.es/servicios-al-ciudadano/catalogo/centros-docentes/premios/premios-proyecto-convivencia-bienestar.html',
+    tareas: 'Documentar plan de convivencia · memoria del proyecto'
+  },
+  {
+    id: 'meed-irene',
+
+    verificado: false,
+    nombre: 'Premios Aulas por la Igualdad · Premios Irene',
+    organismo: 'Ministerio de Educación, FP y Deportes',
+    categoria: 'estatal',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Premios anuales (desde 2006) a centros que desarrollan proyectos de innovación educativa y materiales curriculares innovadores para prevenir y erradicar la violencia, los discursos de odio y promover la igualdad y la cultura de la paz. Tres modalidades: A (Infantil y Primaria), B (ESO y Bachillerato), C (FP y Régimen Especial). En cada modalidad, 3 premios (1º: 5.000€, 2º: 3.000€, 3º: 2.000€) + hasta 8 menciones honoríficas.',
+    beneficiarios: 'Centros sostenidos con fondos públicos · concertados incluidos',
+    cuantia: '10.000€ por modalidad (5.000€ + 3.000€ + 2.000€)',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-10',
+    fechaFin: '2026-10-03',
+    enlace: 'https://www.educacionfpydeportes.gob.es/servicios-al-ciudadano/catalogo/general/29/2983185/ficha.html',
+    tareas: 'Proyecto desarrollado en los dos cursos anteriores · documentar evidencias · tramitación telemática en sede del Ministerio'
+  },
+  {
+    id: 'steam-ninas',
+
+    verificado: false,
+    nombre: 'Premios Aulas por la Igualdad · Alianza STEAM "Niñas en pie de ciencia"',
+    organismo: 'Ministerio de Educación, FP y Deportes',
+    categoria: 'estatal',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Convocatoria hermana de los Premios Irene en la misma orden marco "Aulas por la Igualdad". Reconoce proyectos que fomentan las vocaciones tecnológicas y científicas en niñas y jóvenes. Misma estructura: 3 modalidades (Infantil-Primaria, ESO-Bachillerato, FP), 9 premios totales más menciones honoríficas.',
+    beneficiarios: 'Centros sostenidos con fondos públicos · concertados incluidos',
+    cuantia: '10.000€ por modalidad (5.000€ + 3.000€ + 2.000€)',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-10',
+    fechaFin: '2026-10-03',
+    enlace: 'https://www.educacionfpydeportes.gob.es',
+    tareas: 'Proyecto STEAM con perspectiva de género · evidencias de promoción de vocaciones en niñas'
+  },
+  {
+    id: 'meed-vidasaludable',
+
+    verificado: false,
+    nombre: 'Sello "Vida Saludable"',
+    organismo: 'Ministerio de Educación, FP y Deportes',
+    categoria: 'estatal',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Distintivo de calidad a centros que destacan por promover hábitos saludables. No tiene dotación económica directa pero refuerza la imagen y puntúa en otras convocatorias.',
+    beneficiarios: 'Centro · Distintivo oficial',
+    cuantia: 'Distintivo (sin dotación económica)',
+    plazoInicio: 'Marzo',
+    plazoFin: 'Mayo',
+    mes: 3,
+    fechaInicio: '2026-03-01',
+    fechaFin: '2026-05-15',
+    enlace: 'https://www.educacionfpydeportes.gob.es',
+    tareas: 'Memoria del plan de hábitos saludables del centro'
+  },
+  {
+    id: 'meed-lectura',
+
+    verificado: false,
+    nombre: 'Premio Nacional a la Promoción de la Lectura',
+    organismo: 'Ministerio de Educación · Subdirección General del Libro',
+    categoria: 'estatal',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Premio anual a centros y bibliotecas escolares por proyectos destacados de fomento de la lectura.',
+    beneficiarios: 'Centro · Biblioteca escolar',
+    cuantia: 'Dotación económica + reconocimiento',
+    plazoInicio: 'Junio',
+    plazoFin: 'Septiembre',
+    mes: 6,
+    fechaInicio: '2026-06-01',
+    fechaFin: '2026-09-30',
+    enlace: 'https://www.cultura.gob.es',
+    tareas: 'Memoria del plan lector y actividades de biblioteca'
+  },
+
+  // === EUROPEAS ===
+  {
+    id: 'erasmus-ka120',
+
+    verificado: true,
+    nombre: 'Erasmus+ — Acreditación KA120 (Educación Escolar)',
+    organismo: 'SEPIE · Servicio Español para la Internacionalización de la Educación',
+    categoria: 'europea',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Acreditación que da acceso a financiación recurrente y simplificada para movilidades durante varios años. Una vez aprobada, no hay que volver a redactar todo el proyecto cada año.',
+    beneficiarios: 'Centro · Profesorado y alumnado',
+    cuantia: 'Acceso simplificado a presupuesto anual KA121-SCH (movilidades)',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Septiembre',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-09-29',
+    enlace: 'http://sepie.es/educacion-escolar/convocatoria.html',
+    tareas: 'Estrategia europea del centro · plan de internacionalización a 3-5 años'
+  },
+  {
+    id: 'erasmus-ka122-sch',
+
+    verificado: true,
+    nombre: 'Erasmus+ KA122-SCH — Proyectos de corta duración en Educación Escolar',
+    organismo: 'SEPIE',
+    categoria: 'europea',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Movilidad del profesorado y alumnado de Infantil, Primaria y ESO para formación y aprendizaje en otros países europeos. No requiere acreditación previa: ideal para empezar.',
+    beneficiarios: 'Profesorado y alumnado de Primaria y ESO',
+    cuantia: 'Hasta unos 30.000€ por proyecto (12-18 meses)',
+    plazoInicio: 'Noviembre',
+    plazoFin: 'Febrero',
+    mes: 2,
+    fechaInicio: '2025-11-15',
+    fechaFin: '2026-02-19',
+    enlace: 'http://sepie.es/educacion-escolar/convocatoria.html',
+    tareas: 'Definir necesidades de formación · contactar centros socios europeos'
+  },
+  {
+    id: 'erasmus-ka210',
+
+    verificado: true,
+    nombre: 'Erasmus+ KA210 — Asociaciones a pequeña escala',
+    organismo: 'SEPIE',
+    categoria: 'europea',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Cooperación con otros centros europeos para desarrollar proyectos comunes a pequeña escala. Más sencillo que KA220, ideal como puerta de entrada a la cooperación.',
+    beneficiarios: 'Centro · Asociaciones con 2-3 socios europeos',
+    cuantia: '30.000€ o 60.000€ a tanto alzado',
+    plazoInicio: 'Noviembre',
+    plazoFin: 'Marzo',
+    mes: 3,
+    fechaInicio: '2025-11-15',
+    fechaFin: '2026-03-05',
+    enlace: 'http://sepie.es/educacion-escolar/convocatoria.html',
+    tareas: 'Identificar 1-2 socios europeos · idea de proyecto común'
+  },
+  {
+    id: 'erasmus-ka220',
+
+    verificado: true,
+    nombre: 'Erasmus+ KA220 — Asociaciones de cooperación',
+    organismo: 'SEPIE',
+    categoria: 'europea',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Proyectos de cooperación e innovación a mayor escala con varios socios europeos. Para centros con experiencia previa.',
+    beneficiarios: 'Centro · Consorcio con 3+ socios europeos',
+    cuantia: '120.000€ a 400.000€',
+    plazoInicio: 'Noviembre',
+    plazoFin: 'Marzo',
+    mes: 3,
+    fechaInicio: '2025-11-15',
+    fechaFin: '2026-03-05',
+    enlace: 'http://sepie.es/educacion-escolar/convocatoria.html',
+    tareas: 'Consorcio sólido · capacidad de gestión administrativa'
+  },
+  {
+    id: 'etwinning',
+
+    verificado: false,
+    nombre: 'eTwinning · plataforma europea de hermanamiento escolar',
+    organismo: 'INTEF · Ministerio de Educación',
+    categoria: 'europea',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Plataforma gratuita para colaboración con otros centros europeos. No financia, pero es la antesala natural de los proyectos Erasmus+. Sello eTwinning como reconocimiento.',
+    beneficiarios: 'Profesorado y alumnado',
+    cuantia: 'Sin coste · Premios y reconocimientos anuales',
+    plazoInicio: 'Todo el año',
+    plazoFin: 'Continuo',
+    mes: null,
+    fechaInicio: null,
+    fechaFin: null,
+    enlace: 'https://etwinning.es',
+    tareas: 'Registrar al profesorado interesado · iniciar proyectos pequeños'
+  },
+
+  // === FUNDACIONES ===
+  {
+    id: 'fund-caixa-educaixa',
+
+    verificado: false,
+    nombre: 'EduCaixa — Fundación "la Caixa"',
+    organismo: 'Fundación "la Caixa"',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Programa amplio de recursos educativos gratuitos, formación de profesorado y diversos retos y premios con dotación económica (Aprendizaje Cooperativo, Big Data, etc.).',
+    beneficiarios: 'Centro · profesorado · alumnado',
+    cuantia: 'Diversos premios desde 1.500€ a 10.000€',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Febrero',
+    mes: 10,
+    fechaInicio: '2026-10-01',
+    fechaFin: '2026-02-28',
+    enlace: 'https://educaixa.org',
+    tareas: 'Registrar al centro · inscribirse en retos según interés'
+  },
+  {
+    id: 'fund-accionmagistral',
+
+    verificado: false,
+    nombre: 'Premios Acción Magistral',
+    organismo: 'FAD Juventud · BBVA · Comisión Española de la UNESCO',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Premio nacional a proyectos educativos en valores realizados por docentes en centros de Infantil, Primaria y Secundaria.',
+    beneficiarios: 'Profesorado y centro',
+    cuantia: 'Hasta 5.000€ por categoría',
+    plazoInicio: 'Marzo',
+    plazoFin: 'Mayo',
+    mes: 3,
+    fechaInicio: '2026-03-15',
+    fechaFin: '2026-05-30',
+    enlace: 'https://www.accionmagistral.org',
+    tareas: 'Documentar el proyecto educativo en valores'
+  },
+  {
+    id: 'fund-sm',
+
+    verificado: false,
+    nombre: 'Premios SM Aula de los Talentos',
+    organismo: 'Fundación SM',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Premios a innovación pedagógica, gestión educativa, transformación digital y otras categorías.',
+    beneficiarios: 'Centro · Profesorado',
+    cuantia: 'Variable según categoría',
+    plazoInicio: 'Febrero',
+    plazoFin: 'Abril',
+    mes: 2,
+    fechaInicio: '2026-02-01',
+    fechaFin: '2026-04-30',
+    enlace: 'https://www.fundacion-sm.org',
+    tareas: 'Memoria del proyecto · evidencias de impacto'
+  },
+  {
+    id: 'fund-endesa',
+
+    verificado: false,
+    nombre: 'Premios Fundación Endesa a la Ecoinnovación Educativa',
+    organismo: 'Fundación Endesa',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Premio a proyectos escolares de innovación que aborden el cuidado del medio ambiente, la sostenibilidad y la transición energética.',
+    beneficiarios: 'Centro',
+    cuantia: 'Hasta 6.000€',
+    plazoInicio: 'Enero',
+    plazoFin: 'Marzo',
+    mes: 1,
+    fechaInicio: '2026-01-15',
+    fechaFin: '2026-03-31',
+    enlace: 'https://www.fundacionendesa.org',
+    tareas: 'Proyecto ambiental documentado con resultados'
+  },
+  {
+    id: 'fund-aepd',
+
+    verificado: false,
+    nombre: 'Premio Buenas Prácticas Educativas en Privacidad y Protección de Datos',
+    organismo: 'Agencia Española de Protección de Datos',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Reconocimiento a centros que destacan en educar sobre uso responsable y seguro de internet, privacidad y protección de datos personales.',
+    beneficiarios: 'Centro',
+    cuantia: 'Reconocimiento oficial',
+    plazoInicio: 'Febrero',
+    plazoFin: 'Mayo',
+    mes: 2,
+    fechaInicio: '2026-02-01',
+    fechaFin: '2026-05-31',
+    enlace: 'https://www.aepd.es',
+    tareas: 'Documentar plan de uso responsable de TIC'
+  },
+  {
+    id: 'fund-fec',
+
+    verificado: false,
+    nombre: 'Premio RCP Escuelas',
+    organismo: 'Fundación Española del Corazón',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Premio a centros que integran la enseñanza de la reanimación cardiopulmonar en el currículo escolar.',
+    beneficiarios: 'Centro',
+    cuantia: 'Material formativo + reconocimiento',
+    plazoInicio: 'Enero',
+    plazoFin: 'Marzo',
+    mes: 1,
+    fechaInicio: '2026-01-15',
+    fechaFin: '2026-03-31',
+    enlace: 'https://fundaciondelcorazon.com',
+    tareas: 'Incluir RCP en programación · talleres prácticos'
+  },
+  {
+    id: 'fund-mapfre',
+
+    verificado: false,
+    nombre: 'Premios Fundación Mapfre a la Innovación Educativa',
+    organismo: 'Fundación Mapfre',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Premio a docentes y centros que destacan por proyectos en educación financiera, en valores, en salud o en accesibilidad.',
+    beneficiarios: 'Profesorado y centro',
+    cuantia: 'Hasta 30.000€ a nivel internacional · 5.000€ nacional',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Enero',
+    mes: 1,
+    fechaInicio: '2025-10-01',
+    fechaFin: '2026-01-31',
+    enlace: 'https://www.fundacionmapfre.org',
+    tareas: 'Proyecto consolidado con evaluación de impacto'
+  },
+  {
+    id: 'fund-onceapoyo',
+
+    verificado: false,
+    nombre: 'Concurso Escolar ONCE',
+    organismo: 'Fundación ONCE',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Concurso anual en torno a un tema social (inclusión, diversidad, etc.). El centro participa con material elaborado por el alumnado.',
+    beneficiarios: 'Alumnado y centro',
+    cuantia: 'Premios por categoría + viaje educativo',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Enero',
+    mes: 1,
+    fechaInicio: '2025-10-01',
+    fechaFin: '2026-01-31',
+    enlace: 'https://www.concursoescolaronce.es',
+    tareas: 'Inscripción del centro · trabajo con el alumnado'
+  },
+  {
+    id: 'fund-espiral',
+
+    verificado: false,
+    nombre: 'Premios Espiral Edublogs',
+    organismo: 'Asociación Espiral',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Reconocimiento a los mejores blogs y proyectos digitales educativos a nivel nacional.',
+    beneficiarios: 'Profesorado · proyectos digitales',
+    cuantia: 'Reconocimiento + material',
+    plazoInicio: 'Febrero',
+    plazoFin: 'Mayo',
+    mes: 5,
+    fechaInicio: '2026-02-15',
+    fechaFin: '2026-05-15',
+    enlace: 'https://espiraledublogs.org',
+    tareas: 'Mantener blog o web del proyecto activo'
+  },
+
+  // === ESCUELAS CATÓLICAS ===
+  {
+    id: 'ec-circulares',
+
+    verificado: false,
+    nombre: 'Boletín y circulares de Escuelas Católicas Madrid',
+    organismo: 'Escuelas Católicas Madrid (ECM)',
+    categoria: 'escuelas-catolicas',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Servicio de información filtrado y comentado de todas las convocatorias relevantes para concertada. Es la vía más eficaz para no perder ninguna.',
+    beneficiarios: 'Centro adscrito',
+    cuantia: 'Servicio incluido en la cuota de patronal',
+    plazoInicio: 'Todo el año',
+    plazoFin: 'Continuo',
+    mes: null,
+    fechaInicio: null,
+    fechaFin: null,
+    enlace: 'https://www.ecmadrid.org',
+    tareas: 'Asegurar que recibís los boletines · designar persona responsable en el centro'
+  },
+  {
+    id: 'ec-formacion',
+
+    verificado: false,
+    nombre: 'Plan de Formación de Escuelas Católicas',
+    organismo: 'Escuelas Católicas',
+    categoria: 'escuelas-catolicas',
+    tipo: 'profesorado',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Catálogo amplio de cursos para profesorado y equipos directivos. Algunos con bonificación FUNDAE.',
+    beneficiarios: 'Profesorado · equipo directivo',
+    cuantia: 'Bonificable vía FUNDAE',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Junio',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-06-30',
+    enlace: 'https://www.escuelascatolicas.es/formacion/',
+    tareas: 'Detectar necesidades formativas del claustro · inscribir y bonificar'
+  },
+  {
+    id: 'ec-edutech',
+
+    verificado: false,
+    nombre: 'Premios EC EduTech · Buenas Prácticas Escuelas Católicas',
+    organismo: 'Escuelas Católicas',
+    categoria: 'escuelas-catolicas',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Premios a buenas prácticas educativas dentro de la red de Escuelas Católicas. Categorías de innovación, pastoral, atención a la diversidad, etc.',
+    beneficiarios: 'Centro · profesorado',
+    cuantia: 'Reconocimiento + difusión',
+    plazoInicio: 'Marzo',
+    plazoFin: 'Mayo',
+    mes: 3,
+    fechaInicio: '2026-03-01',
+    fechaFin: '2026-05-31',
+    enlace: 'https://www.escuelascatolicas.es',
+    tareas: 'Memoria de buena práctica documentada'
+  },
+  {
+    id: 'fundae',
+
+    verificado: false,
+    nombre: 'FUNDAE — Bonificaciones a la formación',
+    organismo: 'Fundación Estatal para la Formación en el Empleo',
+    categoria: 'escuelas-catolicas',
+    tipo: 'profesorado',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Crédito anual disponible en cada centro (vía cuotas de Seguridad Social) para bonificar la formación del personal. Muchos centros lo pierden por desconocimiento.',
+    beneficiarios: 'Centro · personal contratado',
+    cuantia: 'Variable según plantilla (calcula crédito anual)',
+    plazoInicio: 'Todo el año',
+    plazoFin: 'Continuo',
+    mes: null,
+    fechaInicio: null,
+    fechaFin: null,
+    enlace: 'https://www.fundae.es',
+    tareas: 'Consultar crédito disponible · planificar formación bonificable'
+  },
+
+  // === FONDOS NEXTGEN / PLAN DE RECUPERACIÓN ===
+  {
+    id: 'compdigedu',
+
+    verificado: false,
+    nombre: '#CompDigEdu — Plan de Digitalización del sistema educativo',
+    organismo: 'Ministerio de Educación · Comunidad de Madrid · Fondos NextGenerationEU',
+    categoria: 'europea',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Programa financiado con fondos NextGen para la transformación digital de los centros: dotación de dispositivos (carros móviles, paneles digitales, kits robótica), formación del profesorado en competencia digital docente y certificación oficial del nivel digital del centro. Los centros concertados pueden adherirse al programa.',
+    beneficiarios: 'Centro · Dotación tecnológica + formación + certificación',
+    cuantia: 'Equipamiento valorado en 5.000-25.000€ según centro',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-15',
+    fechaFin: '2026-10-31',
+    enlace: 'https://intef.es/formacion-y-colaboracion/marco-comun-de-competencia-digital-docente/',
+    tareas: 'Hacer test SELFIE · designar coordinador TIC · plan de digitalización del centro'
+  },
+  {
+    id: 'uaoe',
+
+    verificado: false,
+    nombre: 'Unidades de Acompañamiento y Orientación Personal y Familiar (UAOE)',
+    organismo: 'Consejería de Educación · Comunidad de Madrid · Fondos NextGen',
+    categoria: 'europea',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Profesional especializado (orientador, trabajador social o educador) que da apoyo al alumnado vulnerable y a sus familias. Cofinanciado por el Plan de Recuperación. Los centros concertados sostenidos con fondos públicos pueden solicitarlo.',
+    beneficiarios: 'Centro · Asignación de personal especializado',
+    cuantia: 'Personal cofinanciado',
+    plazoInicio: 'Mayo',
+    plazoFin: 'Junio',
+    mes: 5,
+    fechaInicio: '2026-05-15',
+    fechaFin: '2026-06-30',
+    enlace: 'https://www.educacionfpydeportes.gob.es',
+    tareas: 'Memoria de necesidades de apoyo · perfil profesional solicitado'
+  },
+  {
+    id: 'aulas-crecimiento',
+
+    verificado: false,
+    nombre: 'Aulas de Crecimiento Personal y Emocional',
+    organismo: 'Consejería de Educación · Comunidad de Madrid',
+    categoria: 'comunidad-madrid',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Programa para implementar aulas específicas de educación emocional y bienestar en el centro. Incluye formación del profesorado, materiales y, en algunos casos, asesoramiento externo.',
+    beneficiarios: 'Centro · Formación + materiales',
+    cuantia: 'Materiales + asesoramiento (sin dotación directa)',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-10-31',
+    enlace: 'https://sede.comunidad.madrid/educacion-formacion/innovacion-programas-educativos',
+    tareas: 'Designar coordinador emocional · plan de intervención'
+  },
+  {
+    id: 'proa-avanza',
+
+    verificado: false,
+    nombre: 'PROA+ Avanza — Línea reforzada con Fondos NextGen',
+    organismo: 'Ministerio de Educación · Comunidad de Madrid · Fondos NextGen',
+    categoria: 'europea',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Ampliación reforzada del PROA+ con financiación adicional del Plan de Recuperación para centros con índices más altos de vulnerabilidad. Mayor dotación económica y plazo de ejecución.',
+    beneficiarios: 'Centro · Dotación económica reforzada',
+    cuantia: 'Hasta 50.000€ según plan',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-15',
+    fechaFin: '2026-10-31',
+    enlace: 'http://sede.comunidad.madrid/node/221370',
+    tareas: 'Acreditar índice de vulnerabilidad · plan ambicioso de actividades palanca'
+  },
+  {
+    id: 'plan-refuerzo',
+
+    verificado: false,
+    nombre: 'Plan de Refuerzo Educativo y orientación territorial',
+    organismo: 'Ministerio de Educación · Cofinanciación NextGen',
+    categoria: 'europea',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Programa para reducir las brechas educativas tras la pandemia. Financia refuerzos escolares, apoyo a alumnado con dificultades y programas de inmersión lectora/matemática.',
+    beneficiarios: 'Centro · Dotación para refuerzos',
+    cuantia: 'Variable según plan',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Noviembre',
+    mes: 10,
+    fechaInicio: '2026-10-01',
+    fechaFin: '2026-11-30',
+    enlace: 'https://www.educacionfpydeportes.gob.es',
+    tareas: 'Identificar alumnado destinatario · plan de refuerzo curricular'
+  },
+
+  // === COMUNIDAD DE MADRID — ADICIONALES ===
+  {
+    id: 'refuerza',
+
+    verificado: false,
+    nombre: 'Programa Refuerza · apoyo educativo en horario extraescolar',
+    organismo: 'Consejería de Educación · Comunidad de Madrid',
+    categoria: 'comunidad-madrid',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Refuerzo educativo gratuito fuera del horario lectivo para alumnado con dificultades de aprendizaje en lengua y matemáticas. El centro propone profesorado y recibe financiación por hora impartida.',
+    beneficiarios: 'Centro · Compensación económica al profesorado',
+    cuantia: 'Pago por hora impartida al profesorado',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-15',
+    fechaFin: '2026-10-15',
+    enlace: 'https://sede.comunidad.madrid',
+    tareas: 'Identificar alumnado · profesorado disponible · horarios extraescolares'
+  },
+  {
+    id: 'convivencia-madrid',
+
+    verificado: false,
+    nombre: 'Programa Educar para la Convivencia',
+    organismo: 'Consejería de Educación · Comunidad de Madrid',
+    categoria: 'comunidad-madrid',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Apoyo a centros que desarrollan proyectos de mejora de la convivencia, mediación escolar, alumnado ayudante y prevención del acoso.',
+    beneficiarios: 'Centro · Asesoramiento + materiales',
+    cuantia: 'Asesoramiento, formación y materiales',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-15',
+    fechaFin: '2026-10-31',
+    enlace: 'https://sede.comunidad.madrid/educacion-formacion/innovacion-programas-educativos',
+    tareas: 'Plan de convivencia actualizado · coordinador'
+  },
+  {
+    id: 'bibliotecas-madrid',
+
+    verificado: false,
+    nombre: 'Convocatoria de mejora de bibliotecas escolares',
+    organismo: 'Consejería de Educación · Comunidad de Madrid',
+    categoria: 'comunidad-madrid',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Convocatoria periódica para dotación de fondos bibliográficos, mobiliario y digitalización de la biblioteca escolar.',
+    beneficiarios: 'Centro · Biblioteca escolar',
+    cuantia: 'Hasta 3.000-5.000€ en libros y material',
+    plazoInicio: 'Febrero',
+    plazoFin: 'Abril',
+    mes: 2,
+    fechaInicio: '2026-02-15',
+    fechaFin: '2026-04-30',
+    enlace: 'https://sede.comunidad.madrid',
+    tareas: 'Plan de biblioteca · responsable bibliotecario'
+  },
+
+  // === AYUNTAMIENTO DE MADRID ===
+  {
+    id: 'ayto-madrid-educa',
+
+    verificado: false,
+    nombre: 'Madrid, un libro abierto · programa Madrid es Educación',
+    organismo: 'Ayuntamiento de Madrid · Área de Educación',
+    categoria: 'comunidad-madrid',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Conjunto de actividades educativas gratuitas que ofrece el Ayuntamiento: visitas guiadas a edificios municipales, talleres en museos, recursos vinculados al patrimonio madrileño. Catálogo amplio cada curso.',
+    beneficiarios: 'Centro · Alumnado',
+    cuantia: 'Actividades gratuitas (no dotación económica)',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-10-15',
+    enlace: 'https://www.madrid.es/portales/munimadrid/es/Inicio/Educacion',
+    tareas: 'Revisar catálogo anual · reservar actividades'
+  },
+  {
+    id: 'ayto-vial',
+
+    verificado: false,
+    nombre: 'Programa de Educación Vial · Policía Municipal de Madrid',
+    organismo: 'Ayuntamiento de Madrid · Policía Municipal',
+    categoria: 'comunidad-madrid',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Talleres y actividades de educación vial impartidos por agentes especializados. Incluye visita a las instalaciones del parque infantil de tráfico.',
+    beneficiarios: 'Alumnado',
+    cuantia: 'Gratuito',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-15',
+    fechaFin: '2026-10-31',
+    enlace: 'https://www.madrid.es/portales/munimadrid/es/Inicio/Servicios-sociales-y-salud/Educacion-vial',
+    tareas: 'Reservar plazas con antelación'
+  },
+  {
+    id: 'ayto-saludeduca',
+
+    verificado: false,
+    nombre: 'Madrid Salud Educa · Educación para la Salud',
+    organismo: 'Ayuntamiento de Madrid · Madrid Salud',
+    categoria: 'comunidad-madrid',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Programa amplio de educación para la salud: alimentación, prevención de adicciones, salud emocional, igualdad y prevención de la violencia. Talleres impartidos por profesionales sanitarios en el centro.',
+    beneficiarios: 'Alumnado · Profesorado',
+    cuantia: 'Gratuito',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-10-31',
+    enlace: 'https://madridsalud.es',
+    tareas: 'Revisar catálogo · solicitar talleres deseados'
+  },
+
+  // === ESTATALES ADICIONALES ===
+  {
+    id: 'apsred',
+
+    verificado: false,
+    nombre: 'Premios Aprendizaje-Servicio',
+    organismo: 'Red Española de Aprendizaje-Servicio · Ministerio de Educación',
+    categoria: 'estatal',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Premios a centros que desarrollan proyectos de aprendizaje-servicio (ApS): el alumnado aprende mientras presta servicio a la comunidad. Categorías separadas por etapa educativa.',
+    beneficiarios: 'Centro · Profesorado',
+    cuantia: 'Hasta 1.500€ + materiales',
+    plazoInicio: 'Marzo',
+    plazoFin: 'Junio',
+    mes: 3,
+    fechaInicio: '2026-03-01',
+    fechaFin: '2026-06-15',
+    enlace: 'https://aprendizajeservicio.net',
+    tareas: 'Documentar proyecto ApS · memoria final'
+  },
+  {
+    id: 'intef',
+
+    verificado: false,
+    nombre: 'INTEF · Cursos de formación para profesorado',
+    organismo: 'Instituto Nacional de Tecnologías Educativas y de Formación del Profesorado · Ministerio de Educación',
+    categoria: 'estatal',
+    tipo: 'profesorado',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Catálogo enorme de cursos en línea gratuitos con certificación oficial: competencia digital, metodologías activas, evaluación, programación, etc. Acceso para profesorado de centros públicos y concertados.',
+    beneficiarios: 'Profesorado',
+    cuantia: 'Gratuito · certificación oficial de horas',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Junio',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-06-30',
+    enlace: 'https://intef.es',
+    tareas: 'Inscripción por profesor · seguimiento de aprovechamiento'
+  },
+
+  // === FUNDACIONES ADICIONALES ===
+  {
+    id: 'profuturo',
+
+    verificado: false,
+    nombre: 'ProFuturo · Fundación Telefónica y Fundación "la Caixa"',
+    organismo: 'Fundación Telefónica · Fundación "la Caixa"',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Programa de educación digital. Acceso gratuito a recursos digitales, formación del profesorado y reto/comunidad de prácticas. Centros pueden adherirse al programa.',
+    beneficiarios: 'Centro · Profesorado · Alumnado',
+    cuantia: 'Recursos gratuitos · formación',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Junio',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-06-30',
+    enlace: 'https://profuturo.education/oneducation/',
+    tareas: 'Registrar centro · inscribir profesorado'
+  },
+  {
+    id: 'ja',
+
+    verificado: false,
+    nombre: 'Junior Achievement · Programas de emprendimiento y educación financiera',
+    organismo: 'Fundación Junior Achievement España',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Programas gratuitos guiados por voluntarios de empresas: educación financiera, emprendimiento, habilidades para la vida. Adaptados por etapa educativa.',
+    beneficiarios: 'Alumnado · Centro',
+    cuantia: 'Gratuito',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Diciembre',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-12-15',
+    enlace: 'https://www.fundacionjaes.org',
+    tareas: 'Inscripción del centro · coordinador docente · voluntario externo'
+  },
+  {
+    id: 'bertelsmann',
+
+    verificado: false,
+    nombre: 'Fundación Bertelsmann · Orientación profesional',
+    organismo: 'Fundación Bertelsmann',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['eso'],
+    descripcion: 'Programa "Xcelence" y otros recursos gratuitos para mejorar la orientación profesional en los centros de Secundaria. Asesoramiento al equipo orientador, recursos para tutorías.',
+    beneficiarios: 'Centro · Departamento de Orientación',
+    cuantia: 'Recursos y asesoramiento gratuitos',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-10-31',
+    enlace: 'https://www.fundacionbertelsmann.org',
+    tareas: 'Solicitar adhesión al programa Xcelence'
+  },
+  {
+    id: 'muse',
+
+    verificado: false,
+    nombre: 'Programa MUS-E · Fundación Yehudi Menuhin',
+    organismo: 'Fundación Yehudi Menuhin España',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria'],
+    descripcion: 'Programa que lleva las artes (música, danza, teatro, plástica) a centros educativos en horario lectivo, mediante artistas profesionales que trabajan con el alumnado durante el curso.',
+    beneficiarios: 'Centro · Alumnado',
+    cuantia: 'Programa cofinanciado',
+    plazoInicio: 'Mayo',
+    plazoFin: 'Junio',
+    mes: 5,
+    fechaInicio: '2026-05-01',
+    fechaFin: '2026-06-30',
+    enlace: 'https://fundacionmenuhin.org',
+    tareas: 'Solicitar adhesión · plan artístico-educativo'
+  },
+  {
+    id: 'aecc',
+
+    verificado: false,
+    nombre: 'AECC · Educación para la salud y prevención del cáncer',
+    organismo: 'Asociación Española Contra el Cáncer',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Talleres gratuitos sobre hábitos saludables, prevención del tabaquismo, alimentación equilibrada y bienestar emocional. Material curricular gratuito.',
+    beneficiarios: 'Alumnado · Profesorado',
+    cuantia: 'Gratuito',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Junio',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-06-30',
+    enlace: 'https://www.contraelcancer.es',
+    tareas: 'Contacto con sede provincial · planificación de talleres'
+  },
+  {
+    id: 'tech-edu',
+
+    verificado: false,
+    nombre: 'Microsoft for Education / Google for Education · Recursos gratuitos',
+    organismo: 'Microsoft · Google',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Cuentas educativas gratuitas (Microsoft 365 Education / Google Workspace for Education), formación y certificación gratuita para profesorado, recursos didácticos. Limitaciones según versión.',
+    beneficiarios: 'Centro · Profesorado · Alumnado',
+    cuantia: 'Software y servicios gratuitos',
+    plazoInicio: 'Todo el año',
+    plazoFin: 'Continuo',
+    mes: null,
+    fechaInicio: null,
+    fechaFin: null,
+    enlace: 'https://www.microsoft.com/es-es/education · https://edu.google.com',
+    tareas: 'Acreditar al centro como educativo · designar administrador · plan de uso'
+  },
+
+  // === MÁS FUNDACIONES (PROGRAMAS Y PREMIOS ENERGÍA, CIENCIA, MEDIO AMBIENTE) ===
+  {
+    id: 'zinkers',
+
+    verificado: true,
+    nombre: 'Zinkers · Fundación Repsol · Programa y Premios de Sostenibilidad',
+    organismo: 'Fundación Repsol',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Plataforma educativa gratuita sobre energía, cambio climático, economía circular y ODS. Adaptada a currículo LOMLOE para Primaria, Secundaria y FP. Premios anuales con dotación: 2.500€ por CCAA y 15.000€ para los ganadores nacionales de Primaria y Secundaria.',
+    beneficiarios: 'Centro · Profesorado · Alumnado',
+    cuantia: 'Premios de 2.500€ autonómicos y 15.000€ nacionales',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Abril',
+    mes: 4,
+    fechaInicio: '2025-10-01',
+    fechaFin: '2026-04-24',
+    enlace: 'https://zinkers.fundacionrepsol.com',
+    tareas: 'Registrar docente en plataforma · trabajar contenidos · entregar cartel o manifiesto'
+  },
+  {
+    id: 'efigy',
+
+    verificado: true,
+    nombre: 'Certamen Tecnológico Efigy · Fundación Naturgy',
+    organismo: 'Fundación Naturgy',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['eso'],
+    descripcion: 'Concurso anual para alumnado de 3º y 4º de ESO en torno a proyectos tecnológicos de eficiencia energética e innovación. Incluye programa formativo previo Efigy Education.',
+    beneficiarios: 'Alumnado de 3º y 4º ESO · Centro',
+    cuantia: 'Premios para los proyectos seleccionados',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Enero',
+    mes: 1,
+    fechaInicio: '2025-09-15',
+    fechaFin: '2026-01-15',
+    enlace: 'https://www.fundacionnaturgy.org',
+    tareas: 'Inscripción del centro · constituir equipos de alumnado · proyecto tutorado'
+  },
+  {
+    id: 'ibercaja-futuro',
+
+    verificado: false,
+    nombre: 'Premios Educar para el Futuro · Fundación Ibercaja',
+    organismo: 'Fundación Ibercaja',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Premios anuales que reconocen proyectos transformadores de centros y docentes. Categorías diversas (proyectos de centro, docentes, alumnos). Dotaciones significativas.',
+    beneficiarios: 'Centro · Profesorado',
+    cuantia: 'Hasta 10.000€ por categoría',
+    plazoInicio: 'Enero',
+    plazoFin: 'Abril',
+    mes: 3,
+    fechaInicio: '2026-01-15',
+    fechaFin: '2026-04-30',
+    enlace: 'https://www.fundacionibercaja.es/actividades/concursos-y-certamenes/',
+    tareas: 'Proyecto consolidado · transversal · evidencias de impacto'
+  },
+  {
+    id: 'aquae',
+
+    verificado: false,
+    nombre: 'Fundación Aquae · Concursos y proyectos educativos del agua',
+    organismo: 'Fundación Aquae',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Programa educativo en torno al agua, la sostenibilidad y los ODS. Concursos escolares, materiales gratuitos, becas formativas.',
+    beneficiarios: 'Centro · Alumnado',
+    cuantia: 'Recursos gratuitos · premios variables',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Marzo',
+    mes: 2,
+    fechaInicio: '2025-10-01',
+    fechaFin: '2026-03-31',
+    enlace: 'https://www.fundacionaquae.org',
+    tareas: 'Inscripción en concursos · proyectos sobre el agua'
+  },
+  {
+    id: 'mapfre-aprendiendo',
+
+    verificado: false,
+    nombre: 'Aprendiendo a vivir · Fundación Mapfre · Concurso escolar',
+    organismo: 'Fundación Mapfre',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Programa amplio de educación en valores, hábitos saludables, seguridad vial y digital. Incluye múltiples concursos: Bombero por un día, Volveremos a vernos, Más cerca, etc. Recursos gratuitos y premios.',
+    beneficiarios: 'Centro · Alumnado',
+    cuantia: 'Diversos premios y materiales gratuitos',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Abril',
+    mes: 3,
+    fechaInicio: '2025-10-15',
+    fechaFin: '2026-04-30',
+    enlace: 'https://www.fundacionmapfre.org/educacion-divulgacion/',
+    tareas: 'Revisar catálogo anual · inscribirse en programas afines'
+  },
+  {
+    id: 'botin-educacion',
+
+    verificado: false,
+    nombre: 'Educación Responsable · Fundación Botín',
+    organismo: 'Fundación Botín',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Programa integral de educación emocional, social y de la creatividad. Implementación con formación del profesorado y materiales. Más de 1.000 centros en España.',
+    beneficiarios: 'Centro completo · Profesorado',
+    cuantia: 'Programa subvencionado',
+    plazoInicio: 'Mayo',
+    plazoFin: 'Junio',
+    mes: 5,
+    fechaInicio: '2026-05-01',
+    fechaFin: '2026-06-30',
+    enlace: 'https://www.fundacionbotin.org/educacion-responsable.html',
+    tareas: 'Compromiso de centro · formación del claustro · implementación de 3 años'
+  },
+  {
+    id: 'princesa-girona',
+
+    verificado: false,
+    nombre: 'Premios Fundación Princesa de Girona',
+    organismo: 'Fundación Princesa de Girona',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['eso'],
+    descripcion: 'Premios y programas para jóvenes de talento. Especialmente Generation Docs y programa Talentos para acompañar a docentes con prácticas educativas innovadoras.',
+    beneficiarios: 'Profesorado · Alumnado',
+    cuantia: 'Reconocimiento + acompañamiento',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Diciembre',
+    mes: 12,
+    fechaInicio: '2025-09-15',
+    fechaFin: '2026-01-15',
+    enlace: 'https://fpdgi.org',
+    tareas: 'Memoria del proyecto · trayectoria docente'
+  },
+  {
+    id: 'el-pais-estudiantes',
+
+    verificado: false,
+    nombre: 'El País de los Estudiantes',
+    organismo: 'Diario El País',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['eso'],
+    descripcion: 'Concurso periodístico para estudiantes de ESO y Bachillerato. Cada equipo elabora un periódico durante el curso. Premios para alumnado y profesorado, viajes formativos.',
+    beneficiarios: 'Alumnado de ESO · Profesorado',
+    cuantia: 'Premios + viaje formativo',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Marzo',
+    mes: 3,
+    fechaInicio: '2025-09-15',
+    fechaFin: '2026-03-31',
+    enlace: 'https://estudiantes.elpais.com',
+    tareas: 'Designar equipo · tutor docente · maquetar periódico'
+  },
+  {
+    id: 'es-de-libro',
+
+    verificado: false,
+    nombre: 'Es de Libro · CEDRO · Concurso de Trabajos Bien Hechos',
+    organismo: 'CEDRO (Centro Español de Derechos Reprográficos)',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['eso'],
+    descripcion: 'Concurso anual para fomentar el respeto a la propiedad intelectual. Equipos de alumnado de ESO y Bachillerato presentan trabajos de investigación bien documentados.',
+    beneficiarios: 'Alumnado · Profesorado',
+    cuantia: 'Premios económicos y material',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Abril',
+    mes: 4,
+    fechaInicio: '2025-09-15',
+    fechaFin: '2026-04-15',
+    enlace: 'https://www.esdelibro.es',
+    tareas: 'Equipos tutorados · trabajos de investigación con bibliografía'
+  },
+  {
+    id: 'defensor-pueblo',
+
+    verificado: false,
+    nombre: 'Concurso Escolar de Dibujos sobre Derechos Humanos · Defensor del Pueblo',
+    organismo: 'Defensor del Pueblo',
+    categoria: 'estatal',
+    tipo: 'premio',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Concurso anual de dibujo para alumnado de Primaria y ESO sobre la temática de los Derechos Humanos. Categorías por etapa.',
+    beneficiarios: 'Alumnado',
+    cuantia: 'Premios económicos por categoría',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Marzo',
+    mes: 3,
+    fechaInicio: '2025-10-01',
+    fechaFin: '2026-03-31',
+    enlace: 'https://www.defensordelpueblo.es',
+    tareas: 'Trabajar la temática en tutoría o plástica · envío colectivo'
+  },
+  {
+    id: 'consumopolis',
+
+    verificado: false,
+    nombre: 'Consumópolis · Concurso escolar de consumo responsable',
+    organismo: 'Ministerio de Consumo · Comunidades Autónomas',
+    categoria: 'estatal',
+    tipo: 'premio',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Concurso anual sobre consumo responsable. Equipos de alumnado realizan un recorrido por la ciudad virtual Consumópolis resolviendo pruebas. Premios autonómicos y nacionales.',
+    beneficiarios: 'Equipos de alumnado · Profesorado tutor',
+    cuantia: 'Premios autonómicos + viaje para ganadores',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Febrero',
+    mes: 2,
+    fechaInicio: '2025-10-01',
+    fechaFin: '2026-02-28',
+    enlace: 'https://www.consumopolis.es',
+    tareas: 'Equipos de 5 alumnos · tutor docente · pruebas online'
+  },
+  {
+    id: 'once-concurso',
+
+    verificado: false,
+    nombre: 'Concurso Escolar ONCE · Por una causa social',
+    organismo: 'Fundación ONCE',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Concurso escolar anual sobre temáticas sociales (inclusión, diversidad, accesibilidad). El alumnado elabora un trabajo en grupo. Premios autonómicos y nacionales con viaje formativo.',
+    beneficiarios: 'Alumnado · Centro',
+    cuantia: 'Premios + viaje educativo',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Enero',
+    mes: 1,
+    fechaInicio: '2025-10-01',
+    fechaFin: '2026-01-31',
+    enlace: 'https://www.concursoescolaronce.es',
+    tareas: 'Inscripción del centro · trabajo del aula · docente tutor'
+  },
+  {
+    id: 'anar',
+
+    verificado: false,
+    nombre: 'Fundación ANAR · Programa contra acoso escolar',
+    organismo: 'Fundación ANAR',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Talleres gratuitos de prevención del acoso escolar (bullying y ciberbullying) para alumnado y formación para profesorado. Material curricular.',
+    beneficiarios: 'Alumnado · Profesorado',
+    cuantia: 'Gratuito',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Junio',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-06-30',
+    enlace: 'https://www.anar.org',
+    tareas: 'Contactar con la fundación · planificar talleres'
+  },
+  {
+    id: 'save-children',
+
+    verificado: false,
+    nombre: 'Save the Children · Programa "Espacios para Crecer"',
+    organismo: 'Save the Children',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Apoyo socioeducativo a alumnado en situación de vulnerabilidad. En algunos casos colaboran con centros para programas de refuerzo y mejora del rendimiento.',
+    beneficiarios: 'Centro · Alumnado vulnerable',
+    cuantia: 'Variable según colaboración',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-10-31',
+    enlace: 'https://www.savethechildren.es',
+    tareas: 'Contacto con delegación territorial · proyecto conjunto'
+  },
+  {
+    id: 'unicef-referentes',
+
+    verificado: false,
+    nombre: 'UNICEF · Centros Referentes en Derechos de la Infancia',
+    organismo: 'UNICEF Comité Español',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Sello que reconoce a centros educativos que integran los derechos de la infancia en su PEC. Acompañamiento metodológico durante el proceso, formación y red de centros.',
+    beneficiarios: 'Centro · Reconocimiento + acompañamiento',
+    cuantia: 'Sello y red colaborativa',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Diciembre',
+    mes: 11,
+    fechaInicio: '2025-09-15',
+    fechaFin: '2026-12-15',
+    enlace: 'https://www.unicef.es/educa/centros-referentes',
+    tareas: 'Compromiso de centro · plan a 3 años · proyecto formativo'
+  },
+  {
+    id: 'incibe',
+
+    verificado: false,
+    nombre: 'INCIBE · Programa de Ciberseguridad para Centros Educativos',
+    organismo: 'Instituto Nacional de Ciberseguridad',
+    categoria: 'estatal',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Recursos, formación y campañas para promover el uso seguro de internet entre alumnado y profesorado. Material gratuito, charlas, talleres y certificaciones.',
+    beneficiarios: 'Centro · Alumnado · Profesorado · Familias',
+    cuantia: 'Gratuito',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Junio',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-06-30',
+    enlace: 'https://www.incibe.es/menores',
+    tareas: 'Designar coordinador TIC · planificar charlas y campañas'
+  },
+  {
+    id: 'fad-jovenes',
+
+    verificado: false,
+    nombre: 'Programa "Y tú, ¿qué piensas?" · FAD Juventud',
+    organismo: 'FAD Juventud',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['eso'],
+    descripcion: 'Programa de educación sobre prevención de adicciones y construcción del proyecto vital. Talleres, materiales gratuitos y formación.',
+    beneficiarios: 'Alumnado ESO',
+    cuantia: 'Gratuito',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Junio',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-06-30',
+    enlace: 'https://fad.es',
+    tareas: 'Solicitar talleres en delegación · adaptación al PAT'
+  },
+  {
+    id: 'esero',
+
+    verificado: false,
+    nombre: 'ESERO Spain · Educación a través del Espacio',
+    organismo: 'Agencia Espacial Europea (ESA) · CDTI',
+    categoria: 'europea',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Recursos educativos gratuitos con la temática del espacio, formación para docentes y concursos como Astro Pi (programación en la Estación Espacial Internacional) o Mission X.',
+    beneficiarios: 'Alumnado · Profesorado',
+    cuantia: 'Gratuito · premios para concursos seleccionados',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Mayo',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-05-31',
+    enlace: 'https://esero.es',
+    tareas: 'Inscribirse en programas · profesorado coordinador'
+  },
+  {
+    id: 'csic-divulgacion',
+
+    verificado: false,
+    nombre: 'CSIC · Programa "Ciencia en el Aula"',
+    organismo: 'CSIC · Consejo Superior de Investigaciones Científicas',
+    categoria: 'estatal',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Conferencias gratuitas de investigadores del CSIC en centros educativos, talleres divulgativos, concursos científicos como "¿Qué es?" o Festival de la Nanociencia.',
+    beneficiarios: 'Alumnado · Profesorado',
+    cuantia: 'Gratuito',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Mayo',
+    mes: 9,
+    fechaInicio: '2026-09-15',
+    fechaFin: '2026-05-31',
+    enlace: 'https://www.csic.es/es/cultura-cientifica',
+    tareas: 'Solicitar charlas · participación en concursos'
+  },
+  {
+    id: 'inspira-steam',
+
+    verificado: false,
+    nombre: 'Inspira STEAM · Vocaciones STEM en niñas',
+    organismo: 'Deusto Forma · Red INSPIRA',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['primaria'],
+    descripcion: 'Programa de mentoría grupal donde mujeres profesionales del ámbito STEAM trabajan con grupos de 6º de Primaria (especialmente niñas) para promover vocaciones científico-tecnológicas.',
+    beneficiarios: 'Alumnado de 6º de Primaria',
+    cuantia: 'Gratuito',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Octubre',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-10-31',
+    enlace: 'https://inspirasteam.net',
+    tareas: 'Inscripción del centro · profesorado coordinador'
+  },
+  {
+    id: 'ecovidrio',
+
+    verificado: false,
+    nombre: 'Ecovidrio · Concurso "Peque Recicladores"',
+    organismo: 'Ecovidrio',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria'],
+    descripcion: 'Concurso educativo sobre reciclaje de vidrio para colegios. Material gratuito y premios para los centros que más reciclen.',
+    beneficiarios: 'Centro · Alumnado',
+    cuantia: 'Premios materiales y económicos',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Mayo',
+    mes: 9,
+    fechaInicio: '2026-09-15',
+    fechaFin: '2026-05-31',
+    enlace: 'https://ecovidrio.es',
+    tareas: 'Inscripción del centro · campañas internas de reciclaje'
+  },
+  {
+    id: 'mep',
+
+    verificado: false,
+    nombre: 'Concurso Mejora tu Escuela Pública (MEP)',
+    organismo: 'Asociación Mejora tu Escuela Pública',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Premios anuales a las mejores prácticas educativas en centros sostenidos con fondos públicos. Categorías diversas.',
+    beneficiarios: 'Centro · Profesorado',
+    cuantia: 'Premios económicos y reconocimiento',
+    plazoInicio: 'Febrero',
+    plazoFin: 'Mayo',
+    mes: 3,
+    fechaInicio: '2026-02-15',
+    fechaFin: '2026-05-15',
+    enlace: 'https://mejoratuescuelapublica.es',
+    tareas: 'Documentar buena práctica · evidencias de impacto'
+  },
+  {
+    id: 'aldeas-infantiles',
+
+    verificado: false,
+    nombre: 'Aldeas Infantiles SOS · Programa "Abraza tus Valores"',
+    organismo: 'Aldeas Infantiles SOS',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Programa gratuito de educación en valores con materiales por etapa. Concurso anual con premios para el centro y el alumnado.',
+    beneficiarios: 'Centro · Alumnado',
+    cuantia: 'Gratuito · premios al concurso final',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Marzo',
+    mes: 3,
+    fechaInicio: '2025-10-01',
+    fechaFin: '2026-03-31',
+    enlace: 'https://www.aldeasinfantiles.es',
+    tareas: 'Inscripción · trabajar materiales en tutoría · enviar trabajo final'
+  },
+  {
+    id: 'min-agricultura-colores',
+
+    verificado: false,
+    nombre: 'Concurso "Colores que Conciencian" · Min. Agricultura',
+    organismo: 'Ministerio de Agricultura, Pesca y Alimentación',
+    categoria: 'estatal',
+    tipo: 'premio',
+    etapas: ['infantil', 'primaria'],
+    descripcion: 'Concurso anual de dibujo sobre temas agroalimentarios, sostenibilidad, alimentación saludable o medio rural.',
+    beneficiarios: 'Alumnado de Infantil y Primaria',
+    cuantia: 'Premios materiales por categoría',
+    plazoInicio: 'Octubre',
+    plazoFin: 'Marzo',
+    mes: 3,
+    fechaInicio: '2025-10-15',
+    fechaFin: '2026-03-31',
+    enlace: 'https://www.mapa.gob.es',
+    tareas: 'Trabajar temática · envío de dibujos colectivo'
+  },
+  {
+    id: 'csic-aciertas',
+
+    verificado: false,
+    nombre: 'Premios ACIERTAS · Divulgación científica escolar',
+    organismo: 'CSIC · FECYT',
+    categoria: 'estatal',
+    tipo: 'premio',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Premios para proyectos escolares de divulgación científica. Categorías por nivel educativo.',
+    beneficiarios: 'Centro · Alumnado',
+    cuantia: 'Premios económicos + visitas a centros CSIC',
+    plazoInicio: 'Enero',
+    plazoFin: 'Abril',
+    mes: 3,
+    fechaInicio: '2026-01-15',
+    fechaFin: '2026-04-30',
+    enlace: 'https://www.fecyt.es',
+    tareas: 'Proyecto científico documentado · profesorado coordinador'
+  },
+  {
+    id: 'sm-literatura',
+
+    verificado: false,
+    nombre: 'Premios SM El Barco de Vapor / Gran Angular',
+    organismo: 'Fundación SM',
+    categoria: 'fundaciones',
+    tipo: 'premio',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Premios literarios infantiles y juveniles. Aunque son para autores individuales, los centros pueden trabajarlos en clubes de lectura y como referente literario.',
+    beneficiarios: 'Bibliotecas escolares · profesorado y alumnado de letras',
+    cuantia: 'Hasta 50.000€ a autor',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Diciembre',
+    mes: 12,
+    fechaInicio: '2025-09-01',
+    fechaFin: '2026-12-31',
+    enlace: 'https://es.literaturasm.com',
+    tareas: 'Trabajar obras ganadoras · clubes de lectura'
+  },
+  {
+    id: 'flamenco-aula',
+
+    verificado: false,
+    nombre: 'Premios Flamenco en el Aula · Junta de Andalucía',
+    organismo: 'Junta de Andalucía · Consejería de Educación',
+    categoria: 'estatal',
+    tipo: 'premio',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Premios a la elaboración de materiales curriculares y experiencias docentes sobre el flamenco como patrimonio cultural. Abierto a centros de toda España.',
+    beneficiarios: 'Profesorado · Centro',
+    cuantia: 'Dotación económica + reconocimiento',
+    plazoInicio: 'Marzo',
+    plazoFin: 'Mayo',
+    mes: 5,
+    fechaInicio: '2026-03-15',
+    fechaFin: '2026-05-31',
+    enlace: 'https://www.juntadeandalucia.es/educacion/portales/familias/premios-concursos',
+    tareas: 'Material didáctico documentado'
+  },
+  {
+    id: 'trilema',
+
+    verificado: false,
+    nombre: 'Premios y Programas Fundación Trilema',
+    organismo: 'Fundación Trilema',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['infantil', 'primaria', 'eso'],
+    descripcion: 'Fundación dedicada a innovación pedagógica. Premio Reimagine Education, asesoramiento metodológico, formación intensiva.',
+    beneficiarios: 'Centro · Profesorado · Equipo directivo',
+    cuantia: 'Variable · asesoramiento + formación',
+    plazoInicio: 'Enero',
+    plazoFin: 'Abril',
+    mes: 4,
+    fechaInicio: '2026-01-15',
+    fechaFin: '2026-04-15',
+    enlace: 'https://www.fundaciontrilema.org',
+    tareas: 'Proyecto innovador · documentación pedagógica'
+  },
+  {
+    id: 'banco-santander',
+
+    verificado: false,
+    nombre: 'Fundación Banco Santander · Programas educativos',
+    organismo: 'Fundación Banco Santander',
+    categoria: 'fundaciones',
+    tipo: 'centro',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Diversos programas en orientación profesional, becas y proyectos educativos. Plataforma "Santander X" con recursos para emprendimiento escolar.',
+    beneficiarios: 'Centro · Alumnado',
+    cuantia: 'Variable según programa',
+    plazoInicio: 'Septiembre',
+    plazoFin: 'Junio',
+    mes: 9,
+    fechaInicio: '2026-09-01',
+    fechaFin: '2026-06-30',
+    enlace: 'https://www.fundacionbancosantander.com',
+    tareas: 'Identificar programa de interés · inscripción según convocatoria'
+  },
+  {
+    id: 'ciencia-en-accion',
+
+    verificado: false,
+    nombre: 'Ciencia en Acción · Concurso nacional de divulgación',
+    organismo: 'CSIC · Universidad Carlos III · FECYT',
+    categoria: 'estatal',
+    tipo: 'premio',
+    etapas: ['primaria', 'eso'],
+    descripcion: 'Concurso anual de divulgación científica con múltiples categorías (laboratorio, experimentos, vídeos, materiales didácticos). Final presencial con premios.',
+    beneficiarios: 'Alumnado · Profesorado',
+    cuantia: 'Premios económicos por categoría',
+    plazoInicio: 'Enero',
+    plazoFin: 'Mayo',
+    mes: 5,
+    fechaInicio: '2026-01-15',
+    fechaFin: '2026-05-30',
+    enlace: 'https://cienciaenaccion.org',
+    tareas: 'Trabajo de divulgación · vídeo o presentación · final presencial'
+  }
+];
+
+const RESOURCES = [
+  {
+    title: 'Sede electrónica de la Comunidad de Madrid',
+    description: 'Aquí están publicadas todas las convocatorias autonómicas. Cada ficha tiene un botón para activar avisos por correo electrónico.',
+    steps: [
+      'Acceder con certificado o cl@ve',
+      'Buscar la convocatoria (ej. "transporte escolar", "PROA+", "comedor")',
+      'Pulsar "Activar avisos" en la ficha',
+      'Configurar correo institucional para recibir actualizaciones'
+    ],
+    link: 'https://sede.comunidad.madrid'
+  },
+  {
+    title: 'Escuelas Católicas Madrid (ECM)',
+    description: 'La patronal envía boletines filtrados con todas las convocatorias relevantes para concertada. Es la vía más útil y la primera que conviene activar.',
+    steps: [
+      'Confirmar con ECM que vuestro centro está dado de alta',
+      'Designar a una persona como punto de contacto en el centro',
+      'Solicitar inclusión en las listas de "Convocatorias", "Subvenciones" y "Formación"',
+      'Revisar el boletín semanal'
+    ],
+    link: 'https://www.ecmadrid.org'
+  },
+  {
+    title: 'SEPIE · Programa Erasmus+',
+    description: 'Agencia nacional que gestiona las convocatorias Erasmus+. Newsletter mensual y jornadas informativas anuales.',
+    steps: [
+      'Registrar el centro en la plataforma OID',
+      'Suscribirse a la newsletter del SEPIE',
+      'Asistir a la jornada informativa anual (suele ser en diciembre)',
+      'Valorar empezar por KA122 antes de la acreditación KA120'
+    ],
+    link: 'http://sepie.es'
+  },
+  {
+    title: 'EducaMadrid y DAT Capital',
+    description: 'Plataforma autonómica que comunica convocatorias específicas para centros sostenidos con fondos públicos en Madrid.',
+    steps: [
+      'Asegurar que el centro tiene cuenta institucional activa',
+      'Suscribirse al boletín de novedades de la DAT Capital',
+      'Revisar la sección "Convocatorias" en innovacionyformacion.educa.madrid.org'
+    ],
+    link: 'https://www.educa2.madrid.org'
+  },
+  {
+    title: 'Base de Datos Nacional de Subvenciones (BDNS)',
+    description: 'Plataforma estatal donde se publican todas las subvenciones públicas. Permite filtrar por sector educativo y crear alertas.',
+    steps: [
+      'Acceder a la sección de Convocatorias',
+      'Filtrar por "Educación" y por Comunidad de Madrid',
+      'Suscribirse a alertas RSS'
+    ],
+    link: 'https://www.pap.hacienda.gob.es/bdnstrans/GE/es/convocatorias'
+  },
+  {
+    title: 'EduCaixa · Fundación "la Caixa"',
+    description: 'Programa amplio de fundación privada. Acceso a recursos gratuitos, formación bonificable y retos con dotación económica.',
+    steps: [
+      'Registrar al centro con código gratuito',
+      'Inscribir al profesorado interesado en los retos',
+      'Suscribirse al boletín mensual'
+    ],
+    link: 'https://educaixa.org'
+  },
+  {
+    title: 'Boletín Oficial de la Comunidad de Madrid (BOCM)',
+    description: 'Para seguir directamente las publicaciones oficiales. Se puede crear alertas con palabras clave.',
+    steps: [
+      'Acceder a la web del BOCM',
+      'Configurar suscripción por categorías ("Educación")',
+      'Recibir resumen diario por correo'
+    ],
+    link: 'https://www.bocm.es'
+  },
+  {
+    title: 'Ministerio de Educación, FP y Deportes',
+    description: 'Convocatorias estatales: premios, becas NEAE, ayudas a la promoción de la lectura, etc.',
+    steps: [
+      'Suscribirse al boletín "Servicios al ciudadano"',
+      'Revisar la sección "Premios" mensualmente',
+      'Configurar alerta sobre "centros docentes"'
+    ],
+    link: 'https://www.educacionfpydeportes.gob.es'
+  }
+];
+
+// ============ STATE ============
+const STATE = JSON.parse(localStorage.getItem('convocatoriasState') || '{}');
+
+function saveState() {
+  localStorage.setItem('convocatoriasState', JSON.stringify(STATE));
+}
+
+function getStatus(id) {
+  return (STATE[id] && STATE[id].status) || 'pendiente';
+}
+
+function getNotes(id) {
+  return (STATE[id] && STATE[id].notes) || '';
+}
+
+function setStatus(id, status) {
+  if (!STATE[id]) STATE[id] = {};
+  STATE[id].status = status;
+  saveState();
+  renderAll();
+}
+
+function setNotes(id, notes) {
+  if (!STATE[id]) STATE[id] = {};
+  STATE[id].notes = notes;
+  saveState();
+}
+
+// ============ NAVIGATION ============
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('view-' + btn.dataset.view).classList.add('active');
+    window.scrollTo(0, 0);
+  });
+});
+
+// ============ DATE HELPERS ============
+const MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+function today() { return new Date(); }
+function daysUntil(dateStr) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr);
+  const t = new Date();
+  t.setHours(0,0,0,0);
+  return Math.floor((d - t) / (1000 * 60 * 60 * 24));
+}
+
+function getCurrentMonth() {
+  return today().getMonth() + 1;
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return 'Sin fecha definida';
+  const d = new Date(dateStr);
+  return d.getDate() + ' de ' + MONTHS[d.getMonth()] + ' de ' + d.getFullYear();
+}
+
+// ============ RENDER: DASHBOARD ============
+function renderDashboard() {
+  const m = getCurrentMonth();
+  document.getElementById('current-month').textContent = MONTHS[m - 1];
+
+  // Convocatorias del mes actual
+  const monthItems = CONVOCATORIAS.filter(c => c.mes === m || isInPeriod(c, today()));
+  const upcoming = CONVOCATORIAS.filter(c => {
+    const d = daysUntil(c.fechaFin);
+    return d !== null && d > 0 && d <= 60;
+  }).sort((a, b) => daysUntil(a.fechaFin) - daysUntil(b.fechaFin));
+
+  document.getElementById('current-summary').textContent =
+    `${monthItems.length} convocatorias activas o en preparación · ${upcoming.length} con plazo en los próximos 60 días`;
+
+  document.getElementById('month-count').textContent = monthItems.length + ' elementos';
+  document.getElementById('upcoming-count').textContent = upcoming.length + ' elementos';
+
+  document.getElementById('month-items').innerHTML = monthItems.length
+    ? monthItems.map(renderCard).join('')
+    : '<div class="empty-state">No hay convocatorias específicas este mes. Buen momento para revisar el calendario anual y planificar las siguientes.</div>';
+
+  document.getElementById('upcoming-items').innerHTML = upcoming.length
+    ? upcoming.slice(0, 6).map(renderCard).join('')
+    : '<div class="empty-state">Sin plazos inmediatos en los próximos 60 días.</div>';
+
+  // Quick calendar (próximos 5)
+  const next5 = upcoming.slice(0, 5);
+  document.getElementById('quick-calendar').innerHTML = next5.length
+    ? next5.map(c => {
+        const d = daysUntil(c.fechaFin);
+        const urgent = d <= 14;
+        return `<li>
+          <span class="when${urgent ? ' urgent' : ''}">${d} días — cierra ${formatDate(c.fechaFin)}</span>
+          ${c.nombre}
+        </li>`;
+      }).join('')
+    : '<li><span class="when">Sin plazos próximos</span>Buen momento para preparar las siguientes convocatorias.</li>';
+
+  // Year stats
+  const total = CONVOCATORIAS.length;
+  const enCurso = Object.values(STATE).filter(s => s.status === 'en-proceso' || s.status === 'solicitada').length;
+  const completadas = Object.values(STATE).filter(s => s.status === 'concedida').length;
+  document.getElementById('year-stats').innerHTML = `
+    <p style="margin-bottom:0.5rem;"><strong>${total}</strong> convocatorias en el catálogo</p>
+    <p style="margin-bottom:0.5rem;"><strong>${enCurso}</strong> en curso o solicitadas</p>
+    <p><strong>${completadas}</strong> concedidas este curso</p>
+  `;
+}
+
+function isInPeriod(c, date) {
+  if (!c.fechaInicio || !c.fechaFin) return false;
+  const start = new Date(c.fechaInicio);
+  const end = new Date(c.fechaFin);
+  return date >= start && date <= end;
+}
+
+function renderCard(c) {
+  const status = getStatus(c.id);
+  const d = daysUntil(c.fechaFin);
+  let dlTag = '';
+  if (d !== null) {
+    if (d < 0) dlTag = `<span class="tag completo">Cerrada</span>`;
+    else if (d <= 14) dlTag = `<span class="tag urgente">${d} días</span>`;
+    else if (d <= 60) dlTag = `<span class="tag proximo">${d} días</span>`;
+  }
+
+  const verifBadge = c.verificado
+    ? `<span class="verif-badge si" title="Fecha verificada con la convocatoria oficial publicada para 2025-2026">Verificada</span>`
+    : `<span class="verif-badge no" title="Fecha aproximada basada en el patrón histórico. Verifica siempre en la fuente oficial antes de cualquier trámite.">Aproximada</span>`;
+
+  return `
+    <div class="card" onclick="openModal('${c.id}')">
+      <div class="head">
+        <div class="title">${c.nombre}</div>
+        ${dlTag}
+      </div>
+      <div class="desc">${c.desc || c.descripcion}</div>
+      <div class="meta-row">
+        <span class="tag ${c.tipo}">${labelTipo(c.tipo)}</span>
+        ${c.etapas.map(e => `<span class="source">${labelEtapa(e)}</span>`).join(' · ')}
+        ${verifBadge}
+      </div>
+      <div class="deadline-line">
+        <strong>Plazo${c.verificado ? '' : ' (aprox.)'}:</strong> ${c.plazoInicio} — ${c.plazoFin}
+        ${c.fechaFin ? `· cierra el ${formatDate(c.fechaFin)}` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function labelTipo(t) {
+  return {
+    'familias': 'Familias',
+    'centro': 'Centro / proyectos',
+    'profesorado': 'Profesorado',
+    'premio': 'Premio'
+  }[t] || t;
+}
+
+function labelEtapa(e) {
+  return { 'infantil': 'Infantil', 'primaria': 'Primaria', 'eso': 'ESO' }[e] || e;
+}
+
+function labelCategoria(c) {
+  return {
+    'comunidad-madrid': 'Comunidad de Madrid',
+    'estatal': 'Estatal · Ministerio',
+    'europea': 'Europea · Erasmus+',
+    'fundaciones': 'Fundaciones privadas',
+    'escuelas-catolicas': 'Escuelas Católicas / FUNDAE'
+  }[c] || c;
+}
+
+// ============ RENDER: CALENDARIO ============
+function renderCalendario() {
+  let html = '';
+  for (let m = 1; m <= 12; m++) {
+    const items = CONVOCATORIAS.filter(c => {
+      if (c.mes === null) return false; // continuos no aparecen en mes específico
+      return c.mes === m;
+    });
+    const continuous = m === 1 ? CONVOCATORIAS.filter(c => c.mes === null) : [];
+
+    html += `
+      <div class="month-block">
+        <h4>${MONTHS[m-1].charAt(0).toUpperCase() + MONTHS[m-1].slice(1)}</h4>
+        ${items.length === 0 && continuous.length === 0
+          ? '<div class="empty-state">Mes sin convocatorias específicas. Bueno para preparar las siguientes o cerrar memorias.</div>'
+          : '<ul>' + items.map(c => `
+              <li onclick="openModal('${c.id}')" style="cursor:pointer;">
+                <div class="item-title">${c.nombre}</div>
+                <div class="item-meta">${labelTipo(c.tipo)} · ${c.plazoInicio} – ${c.plazoFin}</div>
+              </li>
+            `).join('') + (continuous.length ? continuous.map(c => `
+              <li onclick="openModal('${c.id}')" style="cursor:pointer;">
+                <div class="item-title">${c.nombre}</div>
+                <div class="item-meta">Plazo continuo · ${labelTipo(c.tipo)}</div>
+              </li>
+            `).join('') : '') + '</ul>'
+        }
+      </div>
+    `;
+  }
+  document.getElementById('calendar-grid').innerHTML = html;
+}
+
+// ============ RENDER: CATALOGO ============
+let activeFilters = { tipo: 'all', etapa: 'all', verif: 'all', search: '' };
+
+function renderCatalogo() {
+  let items = CONVOCATORIAS.slice();
+  if (activeFilters.tipo !== 'all') items = items.filter(c => c.tipo === activeFilters.tipo);
+  if (activeFilters.etapa !== 'all') items = items.filter(c => c.etapas.includes(activeFilters.etapa));
+  if (activeFilters.verif === 'si') items = items.filter(c => c.verificado);
+  if (activeFilters.verif === 'no') items = items.filter(c => !c.verificado);
+  if (activeFilters.search) {
+    const q = activeFilters.search.toLowerCase();
+    items = items.filter(c =>
+      c.nombre.toLowerCase().includes(q) ||
+      c.descripcion.toLowerCase().includes(q) ||
+      c.organismo.toLowerCase().includes(q)
+    );
+  }
+
+  // Agrupar por categoría
+  const grouped = {};
+  items.forEach(c => {
+    if (!grouped[c.categoria]) grouped[c.categoria] = [];
+    grouped[c.categoria].push(c);
+  });
+
+  let html = '';
+  const order = ['comunidad-madrid', 'estatal', 'europea', 'fundaciones', 'escuelas-catolicas'];
+  order.forEach(cat => {
+    if (!grouped[cat]) return;
+    html += `<h3 class="section-title" style="margin-top:2rem;">${labelCategoria(cat)} <span class="count">${grouped[cat].length}</span></h3>`;
+    html += grouped[cat].map(renderCard).join('');
+  });
+
+  if (!items.length) {
+    html = '<div class="empty-state" style="padding:2rem;text-align:center;">No hay convocatorias que coincidan con los filtros aplicados.</div>';
+  }
+
+  document.getElementById('catalogo-items').innerHTML = html;
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const f = btn.dataset.filter;
+    const v = btn.dataset.value;
+    activeFilters[f] = v;
+    document.querySelectorAll(`.filter-btn[data-filter="${f}"]`).forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCatalogo();
+  });
+});
+
+document.getElementById('search').addEventListener('input', (e) => {
+  activeFilters.search = e.target.value;
+  renderCatalogo();
+});
+
+// ============ RENDER: TAREAS ============
+function renderTareas() {
+  const allStatus = CONVOCATORIAS.map(c => ({ c, s: getStatus(c.id) }));
+  const stats = {
+    pendiente: allStatus.filter(x => x.s === 'pendiente').length,
+    'en-proceso': allStatus.filter(x => x.s === 'en-proceso').length,
+    solicitada: allStatus.filter(x => x.s === 'solicitada').length,
+    concedida: allStatus.filter(x => x.s === 'concedida').length
+  };
+
+  document.getElementById('task-summary').innerHTML = `
+    <div class="stat-card"><span class="num">${stats.pendiente}</span><div class="label">Pendientes</div></div>
+    <div class="stat-card"><span class="num">${stats['en-proceso']}</span><div class="label">En proceso</div></div>
+    <div class="stat-card"><span class="num">${stats.solicitada}</span><div class="label">Solicitadas</div></div>
+    <div class="stat-card"><span class="num">${stats.concedida}</span><div class="label">Concedidas</div></div>
+  `;
+
+  const active = allStatus.filter(x => x.s === 'en-proceso' || x.s === 'solicitada');
+  const done = allStatus.filter(x => x.s === 'concedida' || x.s === 'denegada');
+
+  document.getElementById('active-tasks').innerHTML = active.length
+    ? active.map(x => renderTaskCard(x.c, x.s)).join('')
+    : '<div class="empty-state">No tienes ninguna convocatoria marcada como en proceso o solicitada todavía. Empieza marcando las que vayas a presentar.</div>';
+
+  document.getElementById('done-tasks').innerHTML = done.length
+    ? done.map(x => renderTaskCard(x.c, x.s)).join('')
+    : '<div class="empty-state">Sin convocatorias finalizadas este curso.</div>';
+}
+
+function renderTaskCard(c, status) {
+  const notes = getNotes(c.id);
+  const labels = { 'en-proceso': 'En proceso', 'solicitada': 'Solicitada', 'concedida': 'Concedida', 'denegada': 'Denegada' };
+  return `
+    <div class="card" onclick="openModal('${c.id}')">
+      <div class="head">
+        <div class="title">${c.nombre}</div>
+        <span class="tag ${status === 'concedida' ? 'completo' : (status === 'solicitada' ? 'proximo' : '')}">${labels[status]}</span>
+      </div>
+      <div class="desc">${c.descripcion}</div>
+      ${notes ? `<div class="deadline-line" style="background:var(--cream);padding:0.5rem 0.7rem;border-left:3px solid var(--navy);"><strong>Notas:</strong> ${notes}</div>` : ''}
+    </div>
+  `;
+}
+
+// ============ RENDER: RECURSOS ============
+function renderRecursos() {
+  document.getElementById('resources').innerHTML = RESOURCES.map(r => `
+    <div class="resource-card">
+      <h4>${r.title}</h4>
+      <p>${r.description}</p>
+      <ol class="steps">
+        ${r.steps.map(s => `<li>${s}</li>`).join('')}
+      </ol>
+      <a href="${r.link}" target="_blank" rel="noopener" class="link-out">Abrir →</a>
+    </div>
+  `).join('');
+}
+
+// ============ MODAL ============
+function openModal(id) {
+  const c = CONVOCATORIAS.find(x => x.id === id);
+  if (!c) return;
+
+  const status = getStatus(id);
+  const notes = getNotes(id);
+
+  document.getElementById('modal-title').textContent = c.nombre;
+  document.getElementById('modal-body').innerHTML = `
+    ${c.verificado
+      ? `<div style="background:#DCFCE7; border-left:3px solid #16A34A; padding:0.8rem 1.1rem; margin-bottom:1.2rem; font-size:0.9rem; color:#14532D;"><strong>Fecha verificada</strong> con la convocatoria oficial publicada para el curso 2025-2026. Igualmente conviene confirmar en la fuente oficial antes de presentar la solicitud.</div>`
+      : `<div style="background:#FEF3C7; border-left:3px solid #B45309; padding:0.8rem 1.1rem; margin-bottom:1.2rem; font-size:0.9rem; color:#78350F;"><strong>Fecha aproximada</strong> basada en el patrón histórico de la convocatoria. <strong>Antes de cualquier trámite, abre el enlace oficial al final de esta ficha y verifica la fecha real del año en curso.</strong> El verdadero plazo lo publica el organismo en su sede o en el BOE/BOCM.</div>`
+    }
+    <h4>Descripción</h4>
+    <p>${c.descripcion}</p>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label">Organismo</div>
+        <div class="info-value">${c.organismo}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Beneficiarios</div>
+        <div class="info-value">${c.beneficiarios}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Cuantía</div>
+        <div class="info-value">${c.cuantia}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Plazo típico</div>
+        <div class="info-value">${c.plazoInicio} — ${c.plazoFin}</div>
+      </div>
+    </div>
+
+    <h4>Etapas educativas</h4>
+    <p>${c.etapas.map(labelEtapa).join(' · ')}</p>
+
+    <h4>Tareas internas</h4>
+    <p>${c.tareas}</p>
+
+    <h4>Enlace oficial</h4>
+    <p><a href="${c.enlace}" target="_blank" rel="noopener">${c.enlace}</a></p>
+
+    <h4>Mi estado</h4>
+    <div class="status-select">
+      ${['pendiente', 'en-proceso', 'solicitada', 'concedida', 'denegada'].map(s =>
+        `<button class="status-btn ${status === s ? 'active' : ''}" onclick="setStatus('${c.id}', '${s}'); openModal('${c.id}');">${s.charAt(0).toUpperCase() + s.slice(1).replace('-', ' ')}</button>`
+      ).join('')}
+    </div>
+
+    <h4>Mis notas</h4>
+    <textarea id="modal-notes" placeholder="Documenta aquí lo que vayáis trabajando: responsables, plazos internos, observaciones...">${notes}</textarea>
+    <div style="margin-top:1rem;display:flex;gap:0.6rem;">
+      <button class="btn-primary" onclick="setNotes('${c.id}', document.getElementById('modal-notes').value); closeModal();">Guardar y cerrar</button>
+      <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+    </div>
+  `;
+
+  document.getElementById('modal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+}
+
+document.getElementById('modal').addEventListener('click', (e) => {
+  if (e.target.id === 'modal') closeModal();
+});
+
+// ============ ICS EXPORT ============
+function downloadICS() {
+  const events = CONVOCATORIAS.filter(c => c.fechaInicio && c.fechaFin);
+  let ics = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Colegio Ave Maria//Convocatorias//ES\r\n';
+
+  events.forEach(c => {
+    const start = c.fechaFin.replace(/-/g, '');
+    const startReminder = c.fechaInicio.replace(/-/g, '');
+    const prefix = c.verificado ? 'CIERRE' : '[APROX] CIERRE';
+    const prefixApert = c.verificado ? 'APERTURA' : '[APROX] APERTURA';
+    const aviso = c.verificado ? '' : '\\n\\n*** FECHA APROXIMADA *** Verificar en fuente oficial antes de cualquier trámite.';
+
+    // Evento de cierre (deadline)
+    ics += 'BEGIN:VEVENT\r\n';
+    ics += 'UID:' + c.id + '-cierre@avemariamadrid\r\n';
+    ics += 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z\r\n';
+    ics += 'DTSTART;VALUE=DATE:' + start + '\r\n';
+    ics += 'SUMMARY:' + prefix + ' - ' + c.nombre + '\r\n';
+    ics += 'DESCRIPTION:' + c.descripcion.replace(/\n/g, '\\n') + aviso + '\\n\\nEnlace: ' + c.enlace + '\r\n';
+    // Recordatorios más tempranos para las aproximadas (30 y 14 días) que para las verificadas (14 y 3 días)
+    if (c.verificado) {
+      ics += 'BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:Recordatorio: 14 dias\r\nTRIGGER:-P14D\r\nEND:VALARM\r\n';
+      ics += 'BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:Recordatorio: 3 dias\r\nTRIGGER:-P3D\r\nEND:VALARM\r\n';
+    } else {
+      ics += 'BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:APROX - verificar fuente oficial: 30 dias antes\r\nTRIGGER:-P30D\r\nEND:VALARM\r\n';
+      ics += 'BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:APROX - verificar fuente oficial: 14 dias antes\r\nTRIGGER:-P14D\r\nEND:VALARM\r\n';
+    }
+    ics += 'END:VEVENT\r\n';
+
+    // Evento de apertura
+    if (c.fechaInicio !== c.fechaFin) {
+      ics += 'BEGIN:VEVENT\r\n';
+      ics += 'UID:' + c.id + '-apertura@avemariamadrid\r\n';
+      ics += 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z\r\n';
+      ics += 'DTSTART;VALUE=DATE:' + startReminder + '\r\n';
+      ics += 'SUMMARY:' + prefixApert + ' - ' + c.nombre + '\r\n';
+      ics += 'DESCRIPTION:' + c.descripcion.replace(/\n/g, '\\n') + aviso + '\\n\\nEnlace: ' + c.enlace + '\r\n';
+      ics += 'END:VEVENT\r\n';
+    }
+  });
+
+  ics += 'END:VCALENDAR\r\n';
+
+  const blob = new Blob([ics], { type: 'text/calendar' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'convocatorias-ave-maria.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function exportProgress() {
+  const blob = new Blob([JSON.stringify(STATE, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'seguimiento-convocatorias-' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ============ CARGAR FECHAS VERIFICADAS DE fechas.json ============
+// fechas.json es generado cada día por el robot de GitHub Actions.
+// Si existe (porque está desplegado en GitHub) carga las fechas reales
+// del BOE/BOCM. Si no existe (uso local sin GitHub) usa las del catálogo estático.
+async function cargarFechasVerificadas() {
+  try {
+    const response = await fetch('fechas.json?t=' + Date.now());
+    if (!response.ok) {
+      console.log('fechas.json no encontrado, usando catálogo estático');
+      return null;
+    }
+    const data = await response.json();
+    const verif = data.convocatorias_verificadas || {};
+    let count = 0;
+
+    for (const conv of CONVOCATORIAS) {
+      if (verif[conv.id] && verif[conv.id].fechaFin) {
+        conv.verificado = true;
+        conv.fechaFin = verif[conv.id].fechaFin;
+        conv.fuente_verificacion_url = verif[conv.id].fuente_url;
+        conv.fuente_verificacion_titulo = verif[conv.id].fuente_titulo;
+        conv.fuente_verificacion_organismo = verif[conv.id].fuente_organismo;
+        conv.fuente_verificacion_fecha = verif[conv.id].verificado_el;
+        count++;
+      }
+    }
+
+    console.log(`Cargadas ${count} convocatorias verificadas desde fechas.json`);
+
+    // Actualizar banner para mostrar que hay verificación automática activa
+    const banner = document.querySelector('.warning-banner');
+    if (banner && data.updated_at) {
+      const fechaActualizacion = new Date(data.updated_at).toLocaleDateString('es-ES', {
+        day: 'numeric', month: 'long', year: 'numeric'
+      });
+      banner.style.background = 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)';
+      banner.style.borderLeftColor = '#15803D';
+      banner.innerHTML = `
+        <h4 style="color:#14532D;">Catálogo verificado automáticamente · última revisión: ${fechaActualizacion}</h4>
+        <p>De las <strong>${CONVOCATORIAS.length} convocatorias</strong>, hay <strong>${count} verificadas</strong> contra BOE y BOCM en las últimas 24 horas. El resto son aproximadas, basadas en el patrón histórico.</p>
+        <p style="font-size:0.88rem; margin-top:0.5rem;">Aunque la fecha esté verificada, conviene siempre confirmar en la fuente oficial (enlace en cada ficha) antes de presentar la solicitud.</p>
+      `;
+      // Reescribir el ::before
+      const css = document.createElement('style');
+      css.textContent = '.warning-banner h4::before { background: #15803D !important; }';
+      document.head.appendChild(css);
+    }
+
+    return count;
+  } catch (e) {
+    console.log('No se pudo cargar fechas.json:', e.message);
+    return null;
+  }
+}
+
+// ============ RENDER ALL ============
+function renderAll() {
+  renderDashboard();
+  renderCalendario();
+  renderCatalogo();
+  renderTareas();
+  renderRecursos();
+  loadLiveFeed();
+}
+
+// ============ LIVE FEED BOE / BOCM ============
+const EDU_KEYWORDS = [
+  'educac', 'educat', 'centros docent', 'centro educat', 'colegio', 'colegios',
+  'escuela', 'escolar', 'alumn', 'profesor', 'docente', 'concertad',
+  'infantil', 'primaria', 'secundaria', 'eso ', 'becas', 'beca ',
+  'enseñanza', 'aprendizaje', 'biblioteca escolar', 'comedor', 'transporte escolar'
+];
+
+async function loadLiveFeed() {
+  const container = document.getElementById('live-feed');
+  const status = document.getElementById('feed-status');
+  const fallback = document.getElementById('feed-fallback');
+  if (!container) return;
+
+  status.textContent = 'Conectando con BOE y BOCM...';
+  container.innerHTML = '<div class="empty-state" style="padding:1.5rem;">Buscando las últimas convocatorias educativas...</div>';
+
+  const FEEDS = [
+    { name: 'BOE', url: 'https://www.boe.es/rss/canal.php?c=10', source: 'Boletín Oficial del Estado' },
+    { name: 'BOE', url: 'https://www.boe.es/rss/canal.php?c=1A', source: 'BOE · Disposiciones Generales' },
+    { name: 'BOCM', url: 'https://www.bocm.es/rss/sumarios', source: 'Boletín Oficial de la Comunidad de Madrid' }
+  ];
+
+  // Proxies CORS — se intentan en orden
+  const proxies = [
+    url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+  ];
+
+  let allItems = [];
+
+  for (const feed of FEEDS) {
+    let xml = null;
+    for (const proxy of proxies) {
+      try {
+        const response = await fetch(proxy(feed.url), { signal: AbortSignal.timeout(10000) });
+        if (!response.ok) continue;
+        xml = await response.text();
+        if (xml && xml.includes('<')) break;
+      } catch (e) {
+        continue;
+      }
+    }
+    if (!xml) continue;
+
+    try {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xml, 'text/xml');
+      const items = doc.querySelectorAll('item');
+      items.forEach(item => {
+        const title = item.querySelector('title')?.textContent || '';
+        const description = item.querySelector('description')?.textContent || '';
+        const link = item.querySelector('link')?.textContent || '';
+        const pubDate = item.querySelector('pubDate')?.textContent || '';
+
+        const combined = (title + ' ' + description).toLowerCase();
+        const matches = EDU_KEYWORDS.some(k => combined.includes(k));
+
+        if (matches) {
+          allItems.push({
+            title: title.trim(),
+            description: description.replace(/<[^>]*>/g, '').trim().slice(0, 220),
+            link: link.trim(),
+            pubDate: pubDate,
+            source: feed.source
+          });
+        }
+      });
+    } catch (e) {
+      console.error('Error parsing', feed.name, e);
+    }
+  }
+
+  if (allItems.length === 0) {
+    container.innerHTML = '';
+    fallback.style.display = 'block';
+    status.textContent = 'No disponible ahora';
+    return;
+  }
+
+  // Ordenar por fecha descendente
+  allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+  allItems = allItems.slice(0, 10);
+
+  status.textContent = allItems.length + ' resultados';
+  fallback.style.display = 'none';
+
+  container.innerHTML = allItems.map(item => {
+    const dateStr = item.pubDate ? new Date(item.pubDate).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+    return `
+      <div class="card" style="cursor:default;">
+        <div class="head">
+          <div class="title" style="font-size:1rem;">${escapeHtml(item.title)}</div>
+          <span class="source" style="white-space:nowrap;">${dateStr}</span>
+        </div>
+        <div class="desc" style="font-size:0.88rem;">${escapeHtml(item.description)}...</div>
+        <div class="meta-row" style="margin-top:0.4rem;">
+          <span class="tag" style="background:var(--cream); color:var(--navy);">${item.source}</span>
+          <a href="${escapeHtml(item.link)}" target="_blank" rel="noopener" style="font-size:0.85rem; margin-left:auto; font-weight:600;">Ver publicación →</a>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// Arranque: cargar primero las fechas verificadas, luego renderizar todo.
+// Si fechas.json no existe (uso local), renderiza igualmente con el catálogo estático.
+cargarFechasVerificadas().then(() => renderAll());
+</script>
+
+</body>
+</html>
