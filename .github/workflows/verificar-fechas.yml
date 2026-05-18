@@ -1,0 +1,41 @@
+name: Verificación diaria de convocatorias
+
+on:
+  # Cada día a las 7:00 UTC (que en España son las 8:00 en invierno y 9:00 en verano)
+  schedule:
+    - cron: '0 7 * * *'
+  # Permite ejecutarlo manualmente desde la pestaña "Actions" de GitHub
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Ejecutar verificación
+        run: python update_fechas.py
+
+      - name: Guardar cambios en el repositorio (si los hay)
+        run: |
+          git config user.name "Bot Verificación de Convocatorias"
+          git config user.email "verificacion-bot@noreply.local"
+          git add fechas.json
+          if git diff --cached --quiet; then
+            echo "✓ Sin cambios — el catálogo sigue actualizado"
+          else
+            git commit -m "🔄 Actualización automática del catálogo ($(date +'%Y-%m-%d'))"
+            git push
+            echo "✓ Cambios guardados en el repositorio"
+          fi
