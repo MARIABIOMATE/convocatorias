@@ -1,0 +1,15 @@
+{
+  "updated_at": "2026-05-18T19:40:41.402773Z",
+  "version": 1,
+  "convocatorias_verificadas": {},
+  "estadisticas": {
+    "total_verificadas": 0,
+    "nuevas_hoy": 0,
+    "consultas_realizadas": 37,
+    "fuentes_consultadas": [
+      "BOE · Últimas disposiciones",
+      "BOE · Disposiciones generales",
+      "BOCM · Sumarios"
+    ]
+  }
+}
